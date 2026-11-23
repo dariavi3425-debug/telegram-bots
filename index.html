@@ -1,824 +1,725 @@
 <!DOCTYPE html>
 <html lang="uk" class="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram-боти | Автоматизація та розробка — ВНТУ 3КН-26б</title>
-    <!-- Підключення Tailwind CSS для сучасної адаптивної верстки -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Підключення шрифтів Inter та Fira Code -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['Fira Code', 'monospace'],
-                    },
-                    colors: {
-                        tg: {
-                            bg: '#0e1621',
-                            surface: '#17212b',
-                            surfaceHover: '#1e2c3a',
-                            border: '#242f3d',
-                            blue: '#2481cc',
-                            blueLight: '#5288c1',
-                            blueDark: '#2b5278',
-                            text: '#f5f5f5',
-                            muted: '#7f91a4',
-                            green: '#4fae4e'
-                        }
-                    }
-                }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BotDev.ua — Розробка та можливості Telegram-ботів</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            tg: {
+              bg: '#0E1621',
+              surface: '#17212B',
+              card: '#1C2733',
+              border: '#2B394A',
+              blue: '#2AABEE',
+              blueHover: '#229ED9',
+              text: '#F5F5F5',
+              muted: '#8A9AA9',
+              msgOut: '#2B5278',
+              msgIn: '#182533'
             }
+          }
         }
-    </script>
-    <style>
-        /* Кастомні стилі для скролбару та анімацій переходів між сторінками */
-        body {
-            background-color: #0e1621;
-            color: #f5f5f5;
-            overflow-x: hidden;
-        }
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0e1621;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #242f3d;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #2b5278;
-        }
-        .page-section {
-            display: none;
-            animation: fadeIn 0.35s ease-out forwards;
-        }
-        .page-section.active {
-            display: block;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .chat-bg {
-            background-color: #0e1621;
-            background-image: radial-gradient(#1f2c3a 1px, transparent 1px);
-            background-size: 20px 20px;
-        }
-        .typing-dot {
-            animation: typingBounce 1.4s infinite ease-in-out both;
-        }
-        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
-        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
-        @keyframes typingBounce {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1); }
-        }
-    </style>
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #0E1621;
+      color: #F5F5F5;
+    }
+    .page-section {
+      display: none;
+      animation: fadeIn 0.25s ease-out;
+    }
+    .page-section.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .chat-bg {
+      background-color: #0E1621;
+      background-image: radial-gradient(#1f2d3d 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0E1621;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2B394A;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #2AABEE;
+    }
+  </style>
 </head>
 <body class="min-h-screen flex flex-col font-sans antialiased selection:bg-tg-blue selection:text-white">
 
-    <!-- ==================== НАВІГАЦІЙНА ПАНЕЛЬ (HEADER) ==================== -->
-    <header class="sticky top-0 z-50 bg-tg-surface/90 backdrop-blur-md border-b border-tg-border">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <!-- Логотип сайту -->
-                <button onclick="navigateTo('home')" class="flex items-center gap-3 group focus:outline-none">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-tg-blue to-sky-400 flex items-center justify-center shadow-lg shadow-tg-blue/25 group-hover:scale-105 transition-transform">
-                        <!-- SVG Іконка паперового літачка Telegram -->
-                        <svg class="w-5 h-5 text-white transform -translate-x-0.5 translate-y-0.5" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
-                        </svg>
-                    </div>
-                    <div class="text-left">
-                        <span class="font-bold text-lg tracking-tight text-white block leading-none">BotDev<span class="text-tg-blueLight">.ua</span></span>
-                        <span class="text-[11px] text-tg-muted font-medium">ВНТУ • 3КН-26б</span>
-                    </div>
-                </button>
+  <!-- Навігаційна панель -->
+  <header class="sticky top-0 z-50 bg-tg-surface/95 backdrop-blur-md border-b border-tg-border">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <!-- Логотип -->
+      <a href="#home" onclick="navigateTo('home'); return false;" class="flex items-center gap-3 group">
+        <div class="w-9 h-9 rounded-xl bg-tg-blue flex items-center justify-center shadow-lg shadow-tg-blue/20 group-hover:scale-105 transition-transform">
+          <svg class="w-5 h-5 text-white -ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+          </svg>
+        </div>
+        <div>
+          <span class="font-bold text-lg tracking-tight text-white">BotDev<span class="text-tg-blue">.ua</span></span>
+          <span class="hidden sm:block text-[11px] text-tg-muted leading-none">ВНТУ • 3КН-26б</span>
+        </div>
+      </a>
 
-                <!-- Десктопне меню (5 сторінок) -->
-                <nav class="hidden md:flex items-center space-x-1" id="desktop-nav">
-                    <button data-page="home" onclick="navigateTo('home')" class="nav-btn px-3.5 py-2 rounded-xl text-sm font-medium transition-all">Головна</button>
-                    <button data-page="types" onclick="navigateTo('types')" class="nav-btn px-3.5 py-2 rounded-xl text-sm font-medium transition-all">Види та кар'єра</button>
-                    <button data-page="tech" onclick="navigateTo('tech')" class="nav-btn px-3.5 py-2 rounded-xl text-sm font-medium transition-all">Технології та код</button>
-                    <button data-page="demo" onclick="navigateTo('demo')" class="nav-btn px-3.5 py-2 rounded-xl text-sm font-medium transition-all flex items-center gap-1.5">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                        Демо-бот
-                    </button>
-                    <button data-page="contact" onclick="navigateTo('contact')" class="nav-btn px-3.5 py-2 rounded-xl text-sm font-medium transition-all">Про проєкт та зв'язок</button>
-                </nav>
+      <!-- Десктопне меню -->
+      <nav class="hidden md:flex items-center gap-1" id="desktop-nav">
+        <button data-page="home" onclick="navigateTo('home')" class="nav-btn px-3.5 py-2 rounded-lg text-sm font-medium transition-colors">Головна</button>
+        <button data-page="types" onclick="navigateTo('types')" class="nav-btn px-3.5 py-2 rounded-lg text-sm font-medium transition-colors">Види та кар'єра</button>
+        <button data-page="tech" onclick="navigateTo('tech')" class="nav-btn px-3.5 py-2 rounded-lg text-sm font-medium transition-colors">Технології та код</button>
+        <button data-page="demo" onclick="navigateTo('demo')" class="nav-btn px-3.5 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          Демо-бот
+        </button>
+        <button data-page="about" onclick="navigateTo('about')" class="nav-btn px-3.5 py-2 rounded-lg text-sm font-medium transition-colors">Про проєкт та зв'язок</button>
+      </nav>
 
-                <!-- Кнопка мобільного меню -->
-                <div class="md:hidden">
-                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="p-2.5 rounded-xl bg-tg-bg border border-tg-border text-tg-muted hover:text-white focus:outline-none">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    </button>
-                </div>
-            </div>
+      <!-- Мобільна кнопка меню -->
+      <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-tg-muted hover:text-white hover:bg-tg-card">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Мобільне меню -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-tg-border bg-tg-surface px-4 py-3 space-y-1">
+      <button data-page="home" onclick="navigateTo('home'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left px-3 py-2 rounded-lg text-sm font-medium">Головна</button>
+      <button data-page="types" onclick="navigateTo('types'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left px-3 py-2 rounded-lg text-sm font-medium">Види та кар'єра</button>
+      <button data-page="tech" onclick="navigateTo('tech'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left px-3 py-2 rounded-lg text-sm font-medium">Технології та код</button>
+      <button data-page="demo" onclick="navigateTo('demo'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left px-3 py-2 rounded-lg text-sm font-medium">Демо-бот</button>
+      <button data-page="about" onclick="navigateTo('about'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left px-3 py-2 rounded-lg text-sm font-medium">Про проєкт та зв'язок</button>
+    </div>
+  </header>
+
+  <!-- Основний контент -->
+  <main class="flex-grow">
+
+    <!-- ==================== СТОРІНКА 1: ГОЛОВНА ==================== -->
+    <section id="page-home" class="page-section active">
+      <!-- Hero блок -->
+      <div class="relative overflow-hidden border-b border-tg-border bg-gradient-to-b from-tg-surface to-tg-bg">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24 text-center relative z-10">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-tg-card border border-tg-border text-xs font-medium text-tg-blue mb-6">
+            <span>Практична робота №2 • Вступ до фаху</span>
+            <span class="text-tg-muted">•</span>
+            <span class="text-emerald-400">Bot API 8.0+</span>
+          </div>
+          <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white mb-6 leading-tight">
+            Telegram-боти: <span class="text-tg-blue">розумна автоматизація</span> у кишені
+          </h1>
+          <p class="max-w-2xl mx-auto text-base sm:text-lg text-tg-muted mb-9 leading-relaxed">
+            Дізнайтеся, як влаштовані сучасні чат-боти та Telegram Mini Apps, які технології використовують розробники та як створити власного цифрового асистента з нуля.
+          </p>
+          <div class="flex flex-wrap items-center justify-center gap-4">
+            <button onclick="navigateTo('demo')" class="px-6 py-3.5 rounded-xl bg-tg-blue hover:bg-tg-blueHover text-white font-semibold text-sm shadow-lg shadow-tg-blue/25 transition-all flex items-center gap-2">
+              <span>Спробувати демо-бота</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+            </button>
+            <button onclick="navigateTo('tech')" class="px-6 py-3.5 rounded-xl bg-tg-card hover:bg-tg-border text-white font-semibold text-sm border border-tg-border transition-colors">
+              Дивитися приклади коду
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Переваги Telegram-ботів -->
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16">
+        <div class="text-center mb-12">
+          <h2 class="text-2xl sm:text-3xl font-bold text-white mb-3">Чому Telegram-боти — це тренд в IT?</h2>
+          <p class="text-tg-muted max-w-2xl mx-auto text-sm sm:text-base">Екосистема Telegram перетворилася зі звичайного месенджера на повноцінну платформу для сервісів, платежів та штучного інтелекту.</p>
         </div>
 
-        <!-- Мобільне випадаюче меню -->
-        <div id="mobile-menu" class="hidden md:hidden bg-tg-surface border-b border-tg-border px-4 pt-2 pb-4 space-y-1">
-            <button data-page="home" onclick="navigateTo('home'); toggleMobileMenu()" class="nav-btn block w-full text-left px-4 py-3 rounded-xl text-sm font-medium">🏠 Головна</button>
-            <button data-page="types" onclick="navigateTo('types'); toggleMobileMenu()" class="nav-btn block w-full text-left px-4 py-3 rounded-xl text-sm font-medium">🤖 Види ботів та кар'єра</button>
-            <button data-page="tech" onclick="navigateTo('tech'); toggleMobileMenu()" class="nav-btn block w-full text-left px-4 py-3 rounded-xl text-sm font-medium">💻 Технології та код</button>
-            <button data-page="demo" onclick="navigateTo('demo'); toggleMobileMenu()" class="nav-btn block w-full text-left px-4 py-3 rounded-xl text-sm font-medium">💬 Інтерактивний демо-бот</button>
-            <button data-page="contact" onclick="navigateTo('contact'); toggleMobileMenu()" class="nav-btn block w-full text-left px-4 py-3 rounded-xl text-sm font-medium">📋 Про проєкт та контакти</button>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div class="p-6 rounded-2xl bg-tg-surface border border-tg-border hover:border-tg-blue/50 transition-colors">
+            <div class="w-11 h-11 rounded-xl bg-tg-blue/15 text-tg-blue flex items-center justify-center mb-4 font-bold text-lg">⚡</div>
+            <h3 class="font-bold text-white text-lg mb-2">Швидкий запуск</h3>
+            <p class="text-sm text-tg-muted leading-relaxed">Користувачу не потрібно встановлювати окремий додаток з App Store чи Google Play — бот відкривається миттєво за посиланням.</p>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-tg-surface border border-tg-border hover:border-tg-blue/50 transition-colors">
+            <div class="w-11 h-11 rounded-xl bg-emerald-500/15 text-emerald-400 flex items-center justify-center mb-4 font-bold text-lg">📱</div>
+            <h3 class="font-bold text-white text-lg mb-2">Кросплатформність</h3>
+            <p class="text-sm text-tg-muted leading-relaxed">Один написаний код однаково працює на iOS, Android, Windows, macOS, Linux та у вебверсії месенджера.</p>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-tg-surface border border-tg-border hover:border-tg-blue/50 transition-colors">
+            <div class="w-11 h-11 rounded-xl bg-purple-500/15 text-purple-400 flex items-center justify-center mb-4 font-bold text-lg">🤖</div>
+            <h3 class="font-bold text-white text-lg mb-2">Автоматизація 24/7</h3>
+            <p class="text-sm text-tg-muted leading-relaxed">Бот без вихідних приймає замовлення, відповідає на часті запитання, генерує звіти та інтегрується з CRM-системами.</p>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-tg-surface border border-tg-border hover:border-tg-blue/50 transition-colors">
+            <div class="w-11 h-11 rounded-xl bg-amber-500/15 text-amber-400 flex items-center justify-center mb-4 font-bold text-lg">💼</div>
+            <h3 class="font-bold text-white text-lg mb-2">Високий попит</h3>
+            <p class="text-sm text-tg-muted leading-relaxed">Розробка ботів — один із найдоступніших способів увійти в комерційну розробку на Python або Node.js.</p>
+          </div>
         </div>
-    </header>
 
-    <!-- ==================== ОСНОВНИЙ КОНТЕНТ (БАГАТОСТОРОНКОВИЙ РОУТИНГ) ==================== -->
-    <main class="flex-grow">
+        <!-- Історична довідка -->
+        <div class="mt-12 p-6 sm:p-8 rounded-2xl bg-tg-surface border border-tg-border flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+          <div class="space-y-3 max-w-3xl">
+            <span class="text-xs font-semibold uppercase tracking-wider text-tg-blue">Трішки історії</span>
+            <h3 class="text-xl sm:text-2xl font-bold text-white">Як з'явилися та еволюціонували боти в Telegram</h3>
+            <p class="text-sm text-tg-muted leading-relaxed">
+              Платформу <strong class="text-white">Telegram Bot API</strong> офіційно запустили в червні 2015 року. Спочатку боти вміли лише відповідати на текстові команди зі скісною рискою (наприклад, <code class="text-tg-blue">/start</code>) та надсилати картинки. Згодом з'явилися вбудовані клавіатури (Inline Keyboards), прийом онлайн-оплат, авторизація на сайтах, а з запуском <strong class="text-white">Telegram Mini Apps (Web Apps)</strong> боти отримали повноцінні графічні веб-інтерфейси прямо всередині месенджера.
+            </p>
+          </div>
+          <div class="shrink-0 flex flex-col sm:flex-row lg:flex-col gap-3 w-full lg:w-auto">
+            <button onclick="navigateTo('types')" class="px-5 py-3 rounded-xl bg-tg-card hover:bg-tg-border text-white text-sm font-medium border border-tg-border transition-colors text-center">
+              Оглянути види ботів →
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <!-- ========================================================================= -->
-        <!-- СТОРІНКА 1: ГОЛОВНА (HOME)                                                -->
-        <!-- ========================================================================= -->
-        <section id="page-home" class="page-section active">
-            <!-- Hero секція -->
-            <div class="relative overflow-hidden border-b border-tg-border">
-                <div class="absolute inset-0 bg-gradient-to-b from-tg-blue/10 via-transparent to-transparent pointer-events-none"></div>
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 relative">
-                    <div class="max-w-3xl mx-auto text-center">
-                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-tg-surface border border-tg-border text-xs font-medium text-tg-blueLight mb-6">
-                            <span>Практична робота №2 • Вступ до фаху</span>
-                            <span class="text-tg-muted">•</span>
-                            <span class="text-emerald-400">Bot API 8.0+</span>
-                        </div>
-                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 leading-tight">
-                            Telegram-боти: <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-tg-blue">розумна автоматизація</span> у кишені
-                        </h1>
-                        <p class="text-base sm:text-lg text-tg-muted mb-10 leading-relaxed">
-                            Дізнайтеся, як влаштовані сучасні чат-боти та Telegram Mini Apps, які технології використовують розробники та як створити власного цифрового асистента з нуля.
-                        </p>
-                        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                            <button onclick="navigateTo('demo')" class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-tg-blue hover:bg-sky-500 text-white font-semibold shadow-lg shadow-tg-blue/30 transition-all flex items-center justify-center gap-2">
-                                <span>Спробувати демо-бота</span>
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
-                            </button>
-                            <button onclick="navigateTo('tech')" class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-tg-surface hover:bg-tg-surfaceHover border border-tg-border text-white font-semibold transition-all">
-                                Дивитися приклади коду
-                            </button>
-                        </div>
-                    </div>
-                </div>
+    <!-- ==================== СТОРІНКА 2: ВИДИ ТА КАР'ЄРА ==================== -->
+    <section id="page-types" class="page-section">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+        <div class="mb-10">
+          <span class="text-xs font-semibold uppercase tracking-wider text-tg-blue">Класифікація та ринок</span>
+          <h1 class="text-3xl sm:text-4xl font-bold text-white mt-1 mb-3">Види Telegram-ботів та можливості в IT</h1>
+          <p class="text-tg-muted max-w-2xl text-sm sm:text-base">Сучасні боти вирішують десятки завдань — від автоматизації кав'ярні до складних корпоративних систем моніторингу серверів. Оберіть категорію, щоб дізнатися більше:</p>
+        </div>
+
+        <!-- Фільтр категорій -->
+        <div class="flex flex-wrap gap-2 mb-8" id="bot-filters">
+          <button onclick="filterBots('all')" class="filter-btn active px-4 py-2 rounded-xl text-xs sm:text-sm font-medium bg-tg-blue text-white transition-colors">Усі напрями</button>
+          <button onclick="filterBots('business')" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium bg-tg-surface text-tg-muted hover:text-white border border-tg-border transition-colors">Бізнес та E-commerce</button>
+          <button onclick="filterBots('ai')" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium bg-tg-surface text-tg-muted hover:text-white border border-tg-border transition-colors">ШІ та нейромережі</button>
+          <button onclick="filterBots('edu')" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium bg-tg-surface text-tg-muted hover:text-white border border-tg-border transition-colors">Освіта та сервіси</button>
+        </div>
+
+        <!-- Сітка видів ботів -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16" id="bots-grid">
+          <div class="bot-card p-6 rounded-2xl bg-tg-surface border border-tg-border flex flex-col justify-between" data-category="business">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="px-3 py-1 rounded-lg bg-tg-blue/15 text-tg-blue text-xs font-semibold">E-commerce</span>
+                <span class="text-xl">🛍️</span>
+              </div>
+              <h3 class="text-lg font-bold text-white mb-2">Боти-магазини та доставки</h3>
+              <p class="text-sm text-tg-muted leading-relaxed mb-4">Повноцінний каталог товарів, кошик, вибір способу доставки (Нова Пошта) та миттєва оплата через Apple Pay / Google Pay прямо в чаті.</p>
+            </div>
+            <div class="pt-4 border-t border-tg-border text-xs text-tg-muted">
+              <strong class="text-white">Приклад:</strong> замовлення кави, квітів або одягу без дзвінків менеджера.
+            </div>
+          </div>
+
+          <div class="bot-card p-6 rounded-2xl bg-tg-surface border border-tg-border flex flex-col justify-between" data-category="ai">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="px-3 py-1 rounded-lg bg-purple-500/15 text-purple-400 text-xs font-semibold">Штучний інтелект</span>
+                <span class="text-xl">🤖</span>
+              </div>
+              <h3 class="text-lg font-bold text-white mb-2">AI-асистенти та генератори</h3>
+              <p class="text-sm text-tg-muted leading-relaxed mb-4">Інтеграція з API мовних моделей (GPT, Gemini, Claude) для написання текстів, перекладу, розпізнавання голосових повідомлень та генерації зображень.</p>
+            </div>
+            <div class="pt-4 border-t border-tg-border text-xs text-tg-muted">
+              <strong class="text-white">Приклад:</strong> бот-репетитор з англійської мови або конспектувальник лекцій.
+            </div>
+          </div>
+
+          <div class="bot-card p-6 rounded-2xl bg-tg-surface border border-tg-border flex flex-col justify-between" data-category="edu">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="px-3 py-1 rounded-lg bg-emerald-500/15 text-emerald-400 text-xs font-semibold">Освіта та ВНЗ</span>
+                <span class="text-xl">🎓</span>
+              </div>
+              <h3 class="text-lg font-bold text-white mb-2">Університетські та навчальні боти</h3>
+              <p class="text-sm text-tg-muted leading-relaxed mb-4">Розклад пар для кожної академічної групи, нагадування про дедлайни лабораторних робіт, тестування знань та швидкий пошук аудиторії.</p>
+            </div>
+            <div class="pt-4 border-t border-tg-border text-xs text-tg-muted">
+              <strong class="text-white">Приклад:</strong> бот-помічник студента ВНТУ з розкладом занять.
+            </div>
+          </div>
+
+          <div class="bot-card p-6 rounded-2xl bg-tg-surface border border-tg-border flex flex-col justify-between" data-category="business">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="px-3 py-1 rounded-lg bg-amber-500/15 text-amber-400 text-xs font-semibold">Mini Apps (Web3)</span>
+                <span class="text-xl">📱</span>
+              </div>
+              <h3 class="text-lg font-bold text-white mb-2">Telegram Mini Apps</h3>
+              <p class="text-sm text-tg-muted leading-relaxed mb-4">Вебдодатки на HTML/JS/React, які запускаються всередині Telegram. Дозволяють створювати складні інтерфейси, бронювання та мініігри.</p>
+            </div>
+            <div class="pt-4 border-t border-tg-border text-xs text-tg-muted">
+              <strong class="text-white">Приклад:</strong> сервіси запису до лікаря чи в салон краси з вибором часу на календарі.
+            </div>
+          </div>
+
+          <div class="bot-card p-6 rounded-2xl bg-tg-surface border border-tg-border flex flex-col justify-between" data-category="edu">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="px-3 py-1 rounded-lg bg-rose-500/15 text-rose-400 text-xs font-semibold">Модерація</span>
+                <span class="text-xl">🛡️</span>
+              </div>
+              <h3 class="text-lg font-bold text-white mb-2">Адміністратори груп і каналів</h3>
+              <p class="text-sm text-tg-muted leading-relaxed mb-4">Автоматичне видалення спаму, перевірка нових учасників через капчу, привітання новачків, проведення розіграшів та збір статистики активності.</p>
+            </div>
+            <div class="pt-4 border-t border-tg-border text-xs text-tg-muted">
+              <strong class="text-white">Приклад:</strong> захист великих студентських або міських чатів від ботів.
+            </div>
+          </div>
+
+          <div class="bot-card p-6 rounded-2xl bg-tg-surface border border-tg-border flex flex-col justify-between" data-category="ai">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="px-3 py-1 rounded-lg bg-cyan-500/15 text-cyan-400 text-xs font-semibold">DevOps та IT</span>
+                <span class="text-xl">⚙️</span>
+              </div>
+              <h3 class="text-lg font-bold text-white mb-2">Боти моніторингу та сповіщень</h3>
+              <p class="text-sm text-tg-muted leading-relaxed mb-4">Миттєво повідомляють програмістів, якщо сервер перевантажений, впав сайт або завершилося складання коду на GitHub.</p>
+            </div>
+            <div class="pt-4 border-t border-tg-border text-xs text-tg-muted">
+              <strong class="text-white">Приклад:</strong> інтеграція з GitHub Actions або Grafana.
+            </div>
+          </div>
+        </div>
+
+        <!-- Кар'єрний шлях розробника -->
+        <div class="p-6 sm:p-8 rounded-2xl bg-tg-surface border border-tg-border">
+          <h2 class="text-2xl font-bold text-white mb-2">Шлях розвитку розробника ботів (Roadmap)</h2>
+          <p class="text-sm text-tg-muted mb-8">Створення ботів — чудовий старт для переходу у повноцінну Backend-розробку:</p>
+
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="p-5 rounded-xl bg-tg-bg border border-tg-border">
+              <div class="text-xs font-bold text-tg-blue mb-1">Етап 1 • Старт</div>
+              <h4 class="font-bold text-white mb-2">Junior Bot Developer</h4>
+              <p class="text-xs text-tg-muted leading-relaxed">Знання основ Python або JS, робота з бібліотеками <code class="text-white">aiogram</code> / <code class="text-white">Telegraf</code>, створення простих меню та кнопок. Дохід: від $500–$800.</p>
             </div>
 
-            <!-- Ключові переваги та метрики -->
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-                <div class="text-center mb-12">
-                    <h2 class="text-2xl sm:text-3xl font-bold text-white mb-3">Чому Telegram-боти — це тренд в IT?</h2>
-                    <p class="text-tg-muted max-w-2xl mx-auto">Екосистема Telegram перетворилася зі звичайного месенджера на повноцінну платформу для бізнесу, навчання та штучного інтелекту.</p>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="bg-tg-surface border border-tg-border rounded-2xl p-6 hover:border-tg-blue/50 transition-colors">
-                        <div class="w-12 h-12 rounded-xl bg-tg-blue/15 text-tg-blueLight flex items-center justify-center text-2xl mb-4">🌍</div>
-                        <div class="text-2xl font-bold text-white mb-1">950+ млн</div>
-                        <div class="text-sm font-semibold text-tg-blueLight mb-2">Активних користувачів</div>
-                        <p class="text-xs text-tg-muted leading-relaxed">Величезна аудиторія по всьому світу, яка вже має встановлений месенджер і вміє користуватися ботами.</p>
-                    </div>
-
-                    <div class="bg-tg-surface border border-tg-border rounded-2xl p-6 hover:border-tg-blue/50 transition-colors">
-                        <div class="w-12 h-12 rounded-xl bg-emerald-500/15 text-emerald-400 flex items-center justify-center text-2xl mb-4">⚡</div>
-                        <div class="text-2xl font-bold text-white mb-1">0 секунд</div>
-                        <div class="text-sm font-semibold text-emerald-400 mb-2">На встановлення</div>
-                        <p class="text-xs text-tg-muted leading-relaxed">Користувачу не потрібно завантажувати окремий додаток з App Store чи Google Play — достатньо натиснути /start.</p>
-                    </div>
-
-                    <div class="bg-tg-surface border border-tg-border rounded-2xl p-6 hover:border-tg-blue/50 transition-colors">
-                        <div class="w-12 h-12 rounded-xl bg-purple-500/15 text-purple-400 flex items-center justify-center text-2xl mb-4">🧠</div>
-                        <div class="text-2xl font-bold text-white mb-1">AI & WebApps</div>
-                        <div class="text-sm font-semibold text-purple-400 mb-2">Потужні можливості</div>
-                        <p class="text-xs text-tg-muted leading-relaxed">Інтеграція з нейромережами (ChatGPT, Gemini), прийом оплат, геолокація та вбудовані веб-інтерфейси.</p>
-                    </div>
-
-                    <div class="bg-tg-surface border border-tg-border rounded-2xl p-6 hover:border-tg-blue/50 transition-colors">
-                        <div class="w-12 h-12 rounded-xl bg-amber-500/15 text-amber-400 flex items-center justify-center text-2xl mb-4">🚀</div>
-                        <div class="text-2xl font-bold text-white mb-1">Швидкий старт</div>
-                        <div class="text-sm font-semibold text-amber-400 mb-2">Ідеально для новачків</div>
-                        <p class="text-xs text-tg-muted leading-relaxed">Першого робочого бота на Python можна написати за 30 хвилин — це чудовий перший проєкт у портфоліо студента.</p>
-                    </div>
-                </div>
-
-                <!-- Блок історії розвитку -->
-                <div class="mt-16 bg-tg-surface border border-tg-border rounded-2xl p-6 sm:p-10">
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-                        <div class="lg:col-span-1">
-                            <span class="text-xs font-semibold uppercase tracking-wider text-tg-blueLight">Еволюція платформи</span>
-                            <h3 class="text-2xl font-bold text-white mt-2 mb-4">Трішки історії Bot API</h3>
-                            <p class="text-sm text-tg-muted leading-relaxed">
-                                Платформа ботів Telegram з'явилася у 2015 році та здійснила революцію в комунікаціях. Замість складних команд у консолі з'явилися зручні кнопки, інлайн-режим та повноцінні веб-додатки всередині чату.
-                            </p>
-                        </div>
-                        <div class="lg:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-4">
-                            <div class="bg-tg-bg border border-tg-border rounded-xl p-5">
-                                <span class="text-xs font-mono text-tg-blueLight font-semibold">2015 • Bot API 1.0</span>
-                                <h4 class="font-bold text-white mt-2 mb-1">Перші чат-боти</h4>
-                                <p class="text-xs text-tg-muted">Запуск @BotFather, базові текстові команди, клавіатури та надсилання медіафайлів.</p>
-                            </div>
-                            <div class="bg-tg-bg border border-tg-border rounded-xl p-5">
-                                <span class="text-xs font-mono text-emerald-400 font-semibold">2017–2021 • Платежі</span>
-                                <h4 class="font-bold text-white mt-2 mb-1">E-commerce бум</h4>
-                                <p class="text-xs text-tg-muted">Додано Telegram Payments, інлайн-кнопки та підтримку високонавантажених сервісів.</p>
-                            </div>
-                            <div class="bg-tg-bg border border-tg-border rounded-xl p-5">
-                                <span class="text-xs font-mono text-purple-400 font-semibold">2022–2026 • Mini Apps</span>
-                                <h4 class="font-bold text-white mt-2 mb-1">Ера Web3 та AI</h4>
-                                <p class="text-xs text-tg-muted">Повноцінні HTML5/JS додатки всередині Telegram, інтеграція з LLM-моделями та Telegram Stars.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Швидка навігація по розділах сайту -->
-                <div class="mt-16">
-                    <h3 class="text-xl font-bold text-white mb-6">Досліджуйте розділи нашого порталу:</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div onclick="navigateTo('types')" class="cursor-pointer group bg-tg-surface hover:bg-tg-surfaceHover border border-tg-border rounded-2xl p-6 transition-all">
-                            <div class="flex items-center justify-between mb-3">
-                                <span class="text-sm font-semibold text-tg-blueLight">Сторінка 02</span>
-                                <span class="text-tg-muted group-hover:translate-x-1 transition-transform">→</span>
-                            </div>
-                            <h4 class="text-lg font-bold text-white mb-2">Види ботів та кар'єра</h4>
-                            <p class="text-xs text-tg-muted">Які бувають боти, як на них заробляють та шлях розвитку від Junior до Senior розробника.</p>
-                        </div>
-
-                        <div onclick="navigateTo('tech')" class="cursor-pointer group bg-tg-surface hover:bg-tg-surfaceHover border border-tg-border rounded-2xl p-6 transition-all">
-                            <div class="flex items-center justify-between mb-3">
-                                <span class="text-sm font-semibold text-emerald-400">Сторінка 03</span>
-                                <span class="text-tg-muted group-hover:translate-x-1 transition-transform">→</span>
-                            </div>
-                            <h4 class="text-lg font-bold text-white mb-2">Технології та приклади коду</h4>
-                            <p class="text-xs text-tg-muted">Огляд бібліотек Python (aiogram), покроковий план запуску та готовий код для копіювання.</p>
-                        </div>
-
-                        <div onclick="navigateTo('demo')" class="cursor-pointer group bg-tg-surface hover:bg-tg-surfaceHover border border-tg-border rounded-2xl p-6 transition-all">
-                            <div class="flex items-center justify-between mb-3">
-                                <span class="text-sm font-semibold text-purple-400">Сторінка 04</span>
-                                <span class="text-tg-muted group-hover:translate-x-1 transition-transform">→</span>
-                            </div>
-                            <h4 class="text-lg font-bold text-white mb-2">Інтерактивний симулятор</h4>
-                            <p class="text-xs text-tg-muted">Протестуйте роботу розумного бота @VNTU_Helper_Bot прямо у вікні браузера.</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="p-5 rounded-xl bg-tg-bg border border-tg-border">
+              <div class="text-xs font-bold text-emerald-400 mb-1">Етап 2 • Бази даних</div>
+              <h4 class="font-bold text-white mb-2">Middle Bot / API Dev</h4>
+              <p class="text-xs text-tg-muted leading-relaxed">Робота з PostgreSQL, Redis (FSM — машина станів), підключення платіжних систем, OpenAI API та деплой на Linux-сервери. Дохід: $1,200–$2,000.</p>
             </div>
-        </section>
 
-        <!-- ========================================================================= -->
-        <!-- СТОРІНКА 2: ВИДИ БОТІВ ТА КАР'ЄРА (TYPES & CAREERS)                        -->
-        <!-- ========================================================================= -->
-        <section id="page-types" class="page-section">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-                <div class="max-w-3xl mb-10">
-                    <span class="text-xs font-semibold uppercase tracking-wider text-tg-blueLight">Класифікація та ринок</span>
-                    <h1 class="text-3xl sm:text-4xl font-extrabold text-white mt-2 mb-4">Види Telegram-ботів та можливості в IT</h1>
-                    <p class="text-tg-muted text-sm sm:text-base">
-                        Сучасні боти вирішують десятки завдань — від автоматизації кав'ярні до складних корпоративних систем моніторингу серверів. Оберіть категорію, щоб дізнатися більше:
-                    </p>
-                </div>
-
-                <!-- Фільтр категорій -->
-                <div class="flex flex-wrap gap-2 mb-8" id="bot-filters">
-                    <button onclick="filterBots('all')" class="filter-btn active px-4 py-2 rounded-xl text-xs sm:text-sm font-medium bg-tg-blue text-white transition-all">Усі напрями</button>
-                    <button onclick="filterBots('business')" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium bg-tg-surface text-tg-muted hover:text-white border border-tg-border transition-all">Бізнес та E-commerce</button>
-                    <button onclick="filterBots('ai')" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium bg-tg-surface text-tg-muted hover:text-white border border-tg-border transition-all">AI та нейромережі</button>
-                    <button onclick="filterBots('edu')" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium bg-tg-surface text-tg-muted hover:text-white border border-tg-border transition-all">Освіта та сервіси</button>
-                </div>
-
-                <!-- Картки видів ботів -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16" id="bot-cards-grid">
-                    <!-- Картка 1 -->
-                    <div data-category="business" class="bot-card bg-tg-surface border border-tg-border rounded-2xl p-6 flex flex-col justify-between">
-                        <div>
-                            <div class="flex items-center justify-between mb-4">
-                                <span class="px-3 py-1 rounded-lg bg-tg-blue/15 text-tg-blueLight text-xs font-semibold">E-commerce</span>
-                                <span class="text-2xl">🛍️</span>
-                            </div>
-                            <h3 class="text-lg font-bold text-white mb-2">Боти-магазини та доставки</h3>
-                            <p class="text-xs text-tg-muted leading-relaxed mb-4">
-                                Повноцінний каталог товарів, кошик, вибір способу доставки (Нова Пошта) та миттєва оплата через Apple Pay / Google Pay прямо в чаті.
-                            </p>
-                        </div>
-                        <div class="pt-4 border-t border-tg-border text-xs text-tg-muted">
-                            <strong class="text-white">Приклад:</strong> замовлення кави, квітів або одягу без дзвінків менеджера.
-                        </div>
-                    </div>
-
-                    <!-- Картка 2 -->
-                    <div data-category="ai" class="bot-card bg-tg-surface border border-tg-border rounded-2xl p-6 flex flex-col justify-between">
-                        <div>
-                            <div class="flex items-center justify-between mb-4">
-                                <span class="px-3 py-1 rounded-lg bg-purple-500/15 text-purple-400 text-xs font-semibold">Штучний інтелект</span>
-                                <span class="text-2xl">🤖</span>
-                            </div>
-                            <h3 class="text-lg font-bold text-white mb-2">AI-асистенти та генератори</h3>
-                            <p class="text-xs text-tg-muted leading-relaxed mb-4">
-                                Інтеграція з API мовних моделей (GPT, Gemini, Claude) для написання текстів, перекладу, розпізнавання голосових повідомлень та генерації зображень.
-                            </p>
-                        </div>
-                        <div class="pt-4 border-t border-tg-border text-xs text-tg-muted">
-                            <strong class="text-white">Приклад:</strong> бот-репетитор з англійської мови або конспектувальник лекцій.
-                        </div>
-                    </div>
-
-                    <!-- Картка 3 -->
-                    <div data-category="edu" class="bot-card bg-tg-surface border border-tg-border rounded-2xl p-6 flex flex-col justify-between">
-                        <div>
-                            <div class="flex items-center justify-between mb-4">
-                                <span class="px-3 py-1 rounded-lg bg-emerald-500/15 text-emerald-400 text-xs font-semibold">Освіта та ВНЗ</span>
-                                <span class="text-2xl">🎓</span>
-                            </div>
-                            <h3 class="text-lg font-bold text-white mb-2">Університетські та навчальні боти</h3>
-                            <p class="text-xs text-tg-muted leading-relaxed mb-4">
-                                Розклад пар для кожної академічної групи, нагадування про дедлайни лабораторних робіт, тестування знань та швидкий пошук аудиторій.
-                            </p>
-                        </div>
-                        <div class="pt-4 border-t border-tg-border text-xs text-tg-muted">
-                            <strong class="text-white">Приклад:</strong> бот-помічник студента ВНТУ з розкладом занять.
-                        </div>
-                    </div>
-
-                    <!-- Картка 4 -->
-                    <div data-category="business" class="bot-card bg-tg-surface border border-tg-border rounded-2xl p-6 flex flex-col justify-between">
-                        <div>
-                            <div class="flex items-center justify-between mb-4">
-                                <span class="px-3 py-1 rounded-lg bg-amber-500/15 text-amber-400 text-xs font-semibold">Mini Apps (Web3)</span>
-                                <span class="text-2xl">📱</span>
-                            </div>
-                            <h3 class="text-lg font-bold text-white mb-2">Telegram Mini Apps (TWA)</h3>
-                            <p class="text-xs text-tg-muted leading-relaxed mb-4">
-                                Веб-додатки на HTML/JS/React, які відкриваються всередині Telegram як нативні програми: бронювання квитків, банкінг, ігри та трекери звичок.
-                            </p>
-                        </div>
-                        <div class="pt-4 border-t border-tg-border text-xs text-tg-muted">
-                            <strong class="text-white">Приклад:</strong> сервіси запису до лікаря чи в салон краси.
-                        </div>
-                    </div>
-
-                    <!-- Картка 5 -->
-                    <div data-category="edu" class="bot-card bg-tg-surface border border-tg-border rounded-2xl p-6 flex flex-col justify-between">
-                        <div>
-                            <div class="flex items-center justify-between mb-4">
-                                <span class="px-3 py-1 rounded-lg bg-rose-500/15 text-rose-400 text-xs font-semibold">Модерація</span>
-                                <span class="text-2xl">🛡️</span>
-                            </div>
-                            <h3 class="text-lg font-bold text-white mb-2">Адміністратори груп і каналів</h3>
-                            <p class="text-xs text-tg-muted leading-relaxed mb-4">
-                                Автоматичний захист великих спільнот від спаму, перевірка нових учасників (капча), система попереджень та відкладений постинг контенту.
-                            </p>
-                        </div>
-                        <div class="pt-4 border-t border-tg-border text-xs text-tg-muted">
-                            <strong class="text-white">Приклад:</strong> антиспам-боти у міських та студентських чатах.
-                        </div>
-                    </div>
-
-                    <!-- Картка 6 -->
-                    <div data-category="business" class="bot-card bg-tg-surface border border-tg-border rounded-2xl p-6 flex flex-col justify-between">
-                        <div>
-                            <div class="flex items-center justify-between mb-4">
-                                <span class="px-3 py-1 rounded-lg bg-cyan-500/15 text-cyan-400 text-xs font-semibold">DevOps та IT</span>
-                                <span class="text-2xl">⚙️</span>
-                            </div>
-                            <h3 class="text-lg font-bold text-white mb-2">Системний моніторинг та алерти</h3>
-                            <p class="text-xs text-tg-muted leading-relaxed mb-4">
-                                Миттєві сповіщення розробників про падіння сервера, нові замовлення з сайту або статус збірки коду (CI/CD інтеграції).
-                            </p>
-                        </div>
-                        <div class="pt-4 border-t border-tg-border text-xs text-tg-muted">
-                            <strong class="text-white">Приклад:</strong> інтеграція сайту на Netlify/GitHub із особистим чатом.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Блок кар'єри розробника (аналог блоку "Шлях розвитку" зі звіту) -->
-                <div class="bg-tg-surface border border-tg-border rounded-2xl p-6 sm:p-10">
-                    <div class="mb-8">
-                        <span class="text-xs font-semibold uppercase tracking-wider text-emerald-400">Перспективи у професії</span>
-                        <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">Шлях розвитку Bot / Backend розробника</h2>
-                        <p class="text-sm text-tg-muted mt-2">Створення ботів — це чудова точка входу в комерційну розробку (Python / Node.js Backend) та фріланс.</p>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="bg-tg-bg border border-tg-border rounded-xl p-6 relative">
-                            <div class="text-xs font-mono text-tg-blueLight mb-2">Рівень 1 • Старт</div>
-                            <h3 class="text-lg font-bold text-white mb-2">Junior Bot Developer</h3>
-                            <div class="text-sm font-semibold text-emerald-400 mb-3">$500 – $900 / міс</div>
-                            <p class="text-xs text-tg-muted leading-relaxed">
-                                Розробка лінійних ботів, підключення кнопок, робота з базовими API, створення проєктів на замовлення на фріланс-біржах.
-                            </p>
-                        </div>
-
-                        <div class="bg-tg-bg border border-tg-border rounded-xl p-6 relative">
-                            <div class="text-xs font-mono text-purple-400 mb-2">Рівень 2 • Досвід 1–2 роки</div>
-                            <h3 class="text-lg font-bold text-white mb-2">Middle Python / Node.js Dev</h3>
-                            <div class="text-sm font-semibold text-emerald-400 mb-3">$1,500 – $2,800 / міс</div>
-                            <p class="text-xs text-tg-muted leading-relaxed">
-                                Асинхронна архітектура, бази даних (PostgreSQL, Redis), платіжні системи, інтеграція з CRM та налаштування Webhooks.
-                            </p>
-                        </div>
-
-                        <div class="bg-tg-bg border border-tg-border rounded-xl p-6 relative">
-                            <div class="text-xs font-mono text-amber-400 mb-2">Рівень 3 • Експерт</div>
-                            <h3 class="text-lg font-bold text-white mb-2">Automation & AI Architect</h3>
-                            <div class="text-sm font-semibold text-emerald-400 mb-3">$3,500+ / міс</div>
-                            <p class="text-xs text-tg-muted leading-relaxed">
-                                Проєктування високонавантажених екосистем, Telegram Mini Apps, власних AI-агентів та автоматизація бізнес-процесів.
-                            </p>
-                        </div>
-                    </div>
-                </div>
+            <div class="p-5 rounded-xl bg-tg-bg border border-tg-border">
+              <div class="text-xs font-bold text-purple-400 mb-1">Етап 3 • Високі навантаження</div>
+              <h4 class="font-bold text-white mb-2">Senior Backend Developer</h4>
+              <p class="text-xs text-tg-muted leading-relaxed">Архітектура високонавантажених сервісів, Webhooks, Docker, черги завдань (Celery/RabbitMQ), розробка складних Mini Apps. Дохід: $3,000+.</p>
             </div>
-        </section>
 
-        <!-- ========================================================================= -->
-        <!-- СТОРІНКА 3: ТЕХНОЛОГІЇ ТА ПРИКЛАДИ КОДУ (TECH STACK & CODE)               -->
-        <!-- ========================================================================= -->
-        <section id="page-tech" class="page-section">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-                <div class="max-w-3xl mb-10">
-                    <span class="text-xs font-semibold uppercase tracking-wider text-emerald-400">Технічна база</span>
-                    <h1 class="text-3xl sm:text-4xl font-extrabold text-white mt-2 mb-4">Як створюють Telegram-ботів: стек та код</h1>
-                    <p class="text-tg-muted text-sm sm:text-base">
-                        Під капотом кожного бота працює серверний код, який спілкується із серверами Telegram через HTTPS-запити (Telegram Bot API).
-                    </p>
-                </div>
+            <div class="p-5 rounded-xl bg-tg-bg border border-tg-border">
+              <div class="text-xs font-bold text-amber-400 mb-1">Етап 4 • Управління</div>
+              <h4 class="font-bold text-white mb-2">Tech Lead / Product Owner</h4>
+              <p class="text-xs text-tg-muted leading-relaxed">Проєктування власних SaaS-конструкторів ботів, управління командою розробників та запуск комерційних продуктів.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-                <!-- Стек технологій -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-14">
-                    <div class="bg-tg-surface border border-tg-border rounded-2xl p-5">
-                        <div class="text-tg-blueLight font-mono text-sm font-bold mb-1">Python + aiogram 3</div>
-                        <p class="text-xs text-tg-muted">Найпопулярніший асинхронний фреймворк в Україні для швидкої та надійної розробки ботів.</p>
-                    </div>
-                    <div class="bg-tg-surface border border-tg-border rounded-2xl p-5">
-                        <div class="text-emerald-400 font-mono text-sm font-bold mb-1">Node.js + Telegraf</div>
-                        <p class="text-xs text-tg-muted">Ідеальний вибір для JavaScript/TypeScript розробників, особливо у зв'язці з Telegram Mini Apps.</p>
-                    </div>
-                    <div class="bg-tg-surface border border-tg-border rounded-2xl p-5">
-                        <div class="text-purple-400 font-mono text-sm font-bold mb-1">PostgreSQL & Redis</div>
-                        <p class="text-xs text-tg-muted">Збереження профілів користувачів, історії замовлень та швидке кешування станів діалогу (FSM).</p>
-                    </div>
-                    <div class="bg-tg-surface border border-tg-border rounded-2xl p-5">
-                        <div class="text-amber-400 font-mono text-sm font-bold mb-1">Polling vs Webhook</div>
-                        <p class="text-xs text-tg-muted">Два способи отримання повідомлень: опитування сервера або миттєві вхідні запити на ваш домен.</p>
-                    </div>
-                </div>
+    <!-- ==================== СТОРІНКА 3: ТЕХНОЛОГІЇ ТА КОД ==================== -->
+    <section id="page-tech" class="page-section">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+        <div class="mb-10">
+          <span class="text-xs font-semibold uppercase tracking-wider text-emerald-400">Технічна база</span>
+          <h1 class="text-3xl sm:text-4xl font-bold text-white mt-1 mb-3">Як створюють Telegram-ботів: стек та код</h1>
+          <p class="text-tg-muted max-w-2xl text-sm sm:text-base">Під капотом кожного бота працює серверний код, який спілкується із серверами Telegram через HTTPS-запити (Telegram Bot API).</p>
+        </div>
 
-                <!-- Інтерактивний переглядач коду (Практичний приклад) -->
-                <div class="bg-tg-surface border border-tg-border rounded-2xl overflow-hidden mb-14">
-                    <div class="px-6 py-4 border-b border-tg-border flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-tg-bg/50">
-                        <div class="flex items-center gap-2">
-                            <span class="w-3 h-3 rounded-full bg-rose-500"></span>
-                            <span class="w-3 h-3 rounded-full bg-amber-500"></span>
-                            <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
-                            <span class="ml-2 text-xs font-mono text-tg-muted">Практика: приклад реального коду бота</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <button onclick="switchCodeTab('basic')" id="tab-basic" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-tg-blue text-white transition-colors">1. Базовий бот (aiogram)</button>
-                            <button onclick="switchCodeTab('buttons')" id="tab-buttons" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-tg-surface text-tg-muted hover:text-white border border-tg-border transition-colors">2. Бот із кнопками</button>
-                            <button onclick="copyCurrentCode()" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-emerald-600/20 text-emerald-400 hover:bg-emerald-600/30 border border-emerald-500/30 transition-colors flex items-center gap-1.5">
-                                <span id="copy-btn-text">Копіювати</span>
-                            </button>
-                        </div>
-                    </div>
+        <!-- Стек технологій -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+          <div class="p-5 rounded-2xl bg-tg-surface border border-tg-border">
+            <div class="text-tg-blue font-mono text-sm font-bold mb-1">Python + aiogram 3</div>
+            <p class="text-xs text-tg-muted leading-relaxed">Найпопулярніший асинхронний фреймворк в Україні для швидкої та надійної розробки ботів.</p>
+          </div>
+          <div class="p-5 rounded-2xl bg-tg-surface border border-tg-border">
+            <div class="text-emerald-400 font-mono text-sm font-bold mb-1">Node.js + Telegraf</div>
+            <p class="text-xs text-tg-muted leading-relaxed">Ідеальний вибір для розробників JavaScript/TypeScript, особливо у зв'язку з Telegram Mini Apps.</p>
+          </div>
+          <div class="p-5 rounded-2xl bg-tg-surface border border-tg-border">
+            <div class="text-purple-400 font-mono text-sm font-bold mb-1">PostgreSQL та Redis</div>
+            <p class="text-xs text-tg-muted leading-relaxed">Збереження профілів користувачів, історії замовлень та швидке кешування станів діалогу (FSM).</p>
+          </div>
+          <div class="p-5 rounded-2xl bg-tg-surface border border-tg-border">
+            <div class="text-amber-400 font-mono text-sm font-bold mb-1">Polling vs Webhook</div>
+            <p class="text-xs text-tg-muted leading-relaxed">Два способи отримання повідомлень: опитування сервера або миттєві вхідні запити на ваш домен.</p>
+          </div>
+        </div>
 
-                    <div class="p-6 overflow-x-auto bg-[#0b111a]">
-                        <pre id="code-display" class="font-mono text-xs sm:text-sm text-slate-200 leading-relaxed"></pre>
-                    </div>
-                </div>
+        <!-- Приклад реального коду з вкладками -->
+        <div class="rounded-2xl bg-tg-surface border border-tg-border overflow-hidden mb-12">
+          <div class="px-5 py-3.5 bg-tg-card border-b border-tg-border flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+              <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+              <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+              <span class="ml-2 text-xs font-mono text-tg-muted">Практика: приклад реального коду бота</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="switchCodeTab('basic')" id="tab-basic" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-tg-blue text-white transition-colors">1. Базовий бот (aiogram)</button>
+              <button onclick="switchCodeTab('buttons')" id="tab-buttons" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-tg-surface text-tg-muted hover:text-white transition-colors">2. Бот із кнопками</button>
+              <button onclick="copyCurrentCode()" id="copy-btn" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-emerald-500/15 text-emerald-400 hover:bg-emerald-500/25 border border-emerald-500/30 transition-colors">
+                Копіювати
+              </button>
+            </div>
+          </div>
 
-                <!-- Покроковий Roadmap створення першого бота -->
+          <div class="p-5 overflow-x-auto bg-[#0B111A]">
+            <pre id="code-display" class="font-mono text-xs sm:text-sm text-slate-200 leading-relaxed"></pre>
+          </div>
+        </div>
+
+        <!-- Покрокова інструкція запуску -->
+        <div>
+          <h2 class="text-2xl font-bold text-white mb-6">4 кроки до запуску власного бота</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+            <div class="p-5 rounded-2xl bg-tg-surface border border-tg-border relative">
+              <span class="w-8 h-8 rounded-lg bg-tg-blue text-white font-bold text-sm flex items-center justify-center mb-3">1</span>
+              <h3 class="font-bold text-white mb-1.5">Реєстрація в @BotFather</h3>
+              <p class="text-xs text-tg-muted leading-relaxed">Відкрийте офіційного бота <span class="text-tg-blue">@BotFather</span> у Telegram, введіть <code class="text-white">/newbot</code>, задайте ім'я та отримайте секретний API-токен.</p>
+            </div>
+            <div class="p-5 rounded-2xl bg-tg-surface border border-tg-border">
+              <span class="w-8 h-8 rounded-lg bg-tg-blue text-white font-bold text-sm flex items-center justify-center mb-3">2</span>
+              <h3 class="font-bold text-white mb-1.5">Налаштування середовища</h3>
+              <p class="text-xs text-tg-muted leading-relaxed">Встановіть Python 3.11+ та бібліотеку командою <code class="text-emerald-400">pip install aiogram</code> у терміналі VS Code.</p>
+            </div>
+            <div class="p-5 rounded-2xl bg-tg-surface border border-tg-border">
+              <span class="w-8 h-8 rounded-lg bg-tg-blue text-white font-bold text-sm flex items-center justify-center mb-3">3</span>
+              <h3 class="font-bold text-white mb-1.5">Написання логіки</h3>
+              <p class="text-xs text-tg-muted leading-relaxed">Створіть обробники (хендлери) для команд, текстових повідомлень та натискань на інлайн-кнопки.</p>
+            </div>
+            <div class="p-5 rounded-2xl bg-tg-surface border border-tg-border">
+              <span class="w-8 h-8 rounded-lg bg-tg-blue text-white font-bold text-sm flex items-center justify-center mb-3">4</span>
+              <h3 class="font-bold text-white mb-1.5">Деплой на сервер</h3>
+              <p class="text-xs text-tg-muted leading-relaxed">Завантажте код на GitHub та запустіть бота на хмарному VPS-сервері, щоб він працював цілодобово.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== СТОРІНКА 4: ДЕМО-БОТ ==================== -->
+    <section id="page-demo" class="page-section">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 py-10">
+        <div class="text-center mb-8">
+          <h1 class="text-3xl font-bold text-white mb-2">Протестуйте Telegram-бота прямо на сайті</h1>
+          <p class="text-sm text-tg-muted">Натисніть кнопку швидкої команди внизу чату або напишіть власне повідомлення!</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+          <!-- Інфо про демо-бота -->
+          <div class="p-6 rounded-2xl bg-tg-surface border border-tg-border space-y-4">
+            <div class="flex items-center gap-3.5">
+              <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-tg-blue to-cyan-400 flex items-center justify-center text-2xl shadow-lg">
+                🤖
+              </div>
+              <div>
+                <h3 class="font-bold text-white text-lg flex items-center gap-1.5">
+                  VNTU Bot Helper
+                  <svg class="w-4 h-4 text-tg-blue" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-1.9 14.7L6 12.6l1.5-1.5 2.6 2.6 6.4-6.4 1.5 1.5-7.9 7.9z"/></svg>
+                </h3>
+                <p class="text-xs text-tg-blue font-mono">@VNTU_Helper_Bot</p>
+                <span class="inline-block mt-1 text-[11px] text-emerald-400">● онлайн (бот)</span>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-tg-bg border border-tg-border space-y-2 text-xs">
+              <div class="text-tg-muted">Що вміє цей бот?</div>
+              <p class="text-slate-200 leading-relaxed">Навчальний інтерактивний помічник, створений для демонстрації роботи кнопок, команд та відповідей Telegram Bot API.</p>
+              <div class="pt-2 border-t border-tg-border text-tg-muted">
+                Розробник: <span class="text-white font-medium">Вишневська Дарія, група 3КН-26б (ВНТУ)</span>
+              </div>
+            </div>
+
+            <button onclick="resetChat()" class="w-full py-2.5 rounded-xl bg-tg-card hover:bg-tg-border text-xs font-medium text-tg-muted hover:text-white border border-tg-border transition-colors">
+              🔄 Очистити історію чату
+            </button>
+          </div>
+
+          <!-- Вікно месенджера -->
+          <div class="lg:col-span-2 rounded-2xl bg-tg-surface border border-tg-border overflow-hidden flex flex-col h-[540px] shadow-2xl">
+            <!-- Шапка чату -->
+            <div class="px-5 py-3.5 bg-tg-card border-b border-tg-border flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-tg-blue/20 text-tg-blue flex items-center justify-center font-bold text-sm">VB</div>
                 <div>
-                    <h2 class="text-2xl font-bold text-white mb-6">4 кроки до запуску власного Telegram-бота:</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        <div class="bg-tg-surface border border-tg-border rounded-2xl p-6">
-                            <div class="w-8 h-8 rounded-lg bg-tg-blue text-white font-bold flex items-center justify-center text-sm mb-4">1</div>
-                            <h3 class="font-bold text-white mb-2">Реєстрація у @BotFather</h3>
-                            <p class="text-xs text-tg-muted leading-relaxed">Знайдіть офіційного бота <span class="text-tg-blueLight font-mono">@BotFather</span>, введіть команду <span class="font-mono text-white">/newbot</span>, задайте ім'я та отримайте секретний API-токен.</p>
-                        </div>
-
-                        <div class="bg-tg-surface border border-tg-border rounded-2xl p-6">
-                            <div class="w-8 h-8 rounded-lg bg-tg-blue text-white font-bold flex items-center justify-center text-sm mb-4">2</div>
-                            <h3 class="font-bold text-white mb-2">Налаштування VS Code</h3>
-                            <p class="text-xs text-tg-muted leading-relaxed">Встановіть Python 3.11+, створіть віртуальне середовище та встановіть бібліотеку командою <span class="font-mono text-emerald-400">pip install aiogram</span>.</p>
-                        </div>
-
-                        <div class="bg-tg-surface border border-tg-border rounded-2xl p-6">
-                            <div class="w-8 h-8 rounded-lg bg-tg-blue text-white font-bold flex items-center justify-center text-sm mb-4">3</div>
-                            <h3 class="font-bold text-white mb-2">Написання логіки</h3>
-                            <p class="text-xs text-tg-muted leading-relaxed">Опишіть обробники команд (<span class="font-mono text-white">/start</span>, <span class="font-mono text-white">/help</span>), додайте інтерактивні кнопки та протестуйте локально на комп'ютері.</p>
-                        </div>
-
-                        <div class="bg-tg-surface border border-tg-border rounded-2xl p-6">
-                            <div class="w-8 h-8 rounded-lg bg-tg-blue text-white font-bold flex items-center justify-center text-sm mb-4">4</div>
-                            <h3 class="font-bold text-white mb-2">Деплой на сервер 24/7</h3>
-                            <p class="text-xs text-tg-muted leading-relaxed">Завантажте код у репозиторій GitHub та розгорніть на хмарному хостингу (Render, Railway або VPS), щоб бот працював цілодобово.</p>
-                        </div>
-                    </div>
+                  <div class="text-sm font-bold text-white leading-tight">VNTU Bot Helper</div>
+                  <div class="text-[11px] text-tg-blue" id="bot-status">бот готовий до роботи</div>
                 </div>
+              </div>
+              <span class="px-2.5 py-1 rounded-md bg-tg-bg text-[11px] font-mono text-tg-muted border border-tg-border">Bot API Simulator</span>
             </div>
-        </section>
 
-        <!-- ========================================================================= -->
-        <!-- СТОРІНКА 4: ІНТЕРАКТИВНИЙ ДЕМО-БОТ (LIVE BOT SIMULATOR)                   -->
-        <!-- ========================================================================= -->
-        <section id="page-demo" class="page-section">
-            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
-                <div class="text-center mb-8">
-                    <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-400 text-xs font-semibold mb-2">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                        Інтерактивна симуляція
-                    </span>
-                    <h1 class="text-2xl sm:text-3xl font-extrabold text-white">Протестуйте Telegram-бота прямо на сайті</h1>
-                    <p class="text-xs sm:text-sm text-tg-muted mt-1">Натискайте кнопки швидких команд внизу чату або напишіть власне повідомлення!</p>
+            <!-- Повідомлення -->
+            <div id="chat-messages" class="flex-grow p-4 sm:p-5 overflow-y-auto space-y-3 chat-bg">
+              <!-- Початкове повідомлення -->
+              <div class="flex items-start gap-2.5 max-w-[85%]">
+                <div class="p-3.5 rounded-2xl rounded-tl-sm bg-tg-msgIn border border-tg-border/60 text-sm text-slate-100 shadow-sm">
+                  <p>Вітаю! 👋 Я демонстраційний Telegram-бот <strong>@VNTU_Helper_Bot</strong>.</p>
+                  <p class="mt-1.5">Оберіть команду внизу або напишіть мені повідомлення!</p>
+                  <div class="text-[10px] text-tg-muted text-right mt-1">12:00</div>
                 </div>
-
-                <!-- Вікно месенджера Telegram -->
-                <div class="bg-tg-surface border border-tg-border rounded-2xl shadow-2xl overflow-hidden grid grid-cols-1 md:grid-cols-12 min-h-[540px]">
-                    
-                    <!-- Ліва панель: Інформація про бота -->
-                    <div class="md:col-span-4 border-b md:border-b-0 md:border-r border-tg-border p-5 flex flex-col justify-between bg-tg-surface">
-                        <div>
-                            <div class="flex items-center gap-3.5 mb-5">
-                                <div class="w-14 h-14 rounded-full bg-gradient-to-br from-tg-blue to-cyan-400 flex items-center justify-center text-2xl font-bold text-white shadow-md">
-                                    🤖
-                                </div>
-                                <div>
-                                    <div class="flex items-center gap-1.5">
-                                        <h2 class="font-bold text-white text-base">VNTU Bot Assistant</h2>
-                                        <!-- Галочка верифікації -->
-                                        <svg class="w-4 h-4 text-sky-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-                                    </div>
-                                    <span class="text-xs text-tg-blueLight font-mono">@VNTU_Helper_Bot</span>
-                                    <span class="block text-[11px] text-emerald-400 mt-0.5">● онлайн (бот)</span>
-                                </div>
-                            </div>
-
-                            <div class="space-y-3 text-xs bg-tg-bg/70 p-4 rounded-xl border border-tg-border">
-                                <div>
-                                    <span class="text-tg-muted block mb-0.5">Що вміє цей бот?</span>
-                                    <p class="text-slate-200 leading-relaxed">Навчальний інтерактивний асистент, створений для демонстрації роботи кнопок, команд та відповідей Telegram Bot API.</p>
-                                </div>
-                                <div class="pt-2 border-t border-tg-border">
-                                    <span class="text-tg-muted block mb-0.5">Розробник:</span>
-                                    <span class="text-white font-medium">Вишневська Дарія, група 3КН-26б (ВНТУ)</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mt-6 pt-4 border-t border-tg-border">
-                            <button onclick="resetChat()" class="w-full py-2.5 px-4 rounded-xl bg-tg-bg hover:bg-tg-surfaceHover border border-tg-border text-xs font-medium text-tg-muted hover:text-white transition-colors">
-                                🔄 Очистити історію чату
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Права панель: Вікно переписки -->
-                    <div class="md:col-span-8 flex flex-col justify-between chat-bg">
-                        <!-- Шапка чату -->
-                        <div class="px-5 py-3 bg-tg-surface/95 border-b border-tg-border flex items-center justify-between">
-                            <div>
-                                <div class="text-sm font-bold text-white">VNTU Bot Assistant</div>
-                                <div id="bot-status-text" class="text-[11px] text-tg-blueLight">бот готовий до роботи</div>
-                            </div>
-                            <span class="text-[11px] px-2.5 py-1 rounded-md bg-tg-bg text-tg-muted font-mono">Bot API Simulator</span>
-                        </div>
-
-                        <!-- Стрічка повідомлень -->
-                        <div id="chat-messages" class="p-4 sm:p-5 space-y-3.5 overflow-y-auto h-[340px] flex flex-col">
-                            <!-- Початкове повідомлення генерується через JS -->
-                        </div>
-
-                        <!-- Панель швидких кнопок (Reply Keyboard) та поле вводу -->
-                        <div class="bg-tg-surface border-t border-tg-border p-3 space-y-2.5">
-                            <!-- Кнопки швидких команд -->
-                            <div class="flex flex-wrap gap-1.5">
-                                <button onclick="sendUserMessage('/start')" class="px-3 py-1.5 rounded-lg bg-tg-bg hover:bg-tg-blueDark text-xs font-medium text-sky-300 border border-tg-border transition-colors">/start</button>
-                                <button onclick="sendUserMessage('📚 Що таке Bot API?')" class="px-3 py-1.5 rounded-lg bg-tg-bg hover:bg-tg-blueDark text-xs font-medium text-slate-200 border border-tg-border transition-colors">📚 Що таке Bot API?</button>
-                                <button onclick="sendUserMessage('💻 На чому пишуть ботів?')" class="px-3 py-1.5 rounded-lg bg-tg-bg hover:bg-tg-blueDark text-xs font-medium text-slate-200 border border-tg-border transition-colors">💻 На чому пишуть ботів?</button>
-                                <button onclick="sendUserMessage('💰 Скільки заробляють розробники?')" class="px-3 py-1.5 rounded-lg bg-tg-bg hover:bg-tg-blueDark text-xs font-medium text-slate-200 border border-tg-border transition-colors">💰 Зарплати в IT</button>
-                                <button onclick="sendUserMessage('🎓 Хто автор сайту?')" class="px-3 py-1.5 rounded-lg bg-tg-bg hover:bg-tg-blueDark text-xs font-medium text-slate-200 border border-tg-border transition-colors">🎓 Хто автор?</button>
-                            </div>
-
-                            <!-- Поле вводу тексту -->
-                            <form onsubmit="handleChatSubmit(event)" class="flex items-center gap-2">
-                                <input id="chat-input" type="text" placeholder="Напишіть повідомлення боту..." autocomplete="off"
-                                    class="flex-grow bg-tg-bg border border-tg-border focus:border-tg-blue rounded-xl px-4 py-2.5 text-sm text-white placeholder-tg-muted focus:outline-none">
-                                <button type="submit" class="p-2.5 rounded-xl bg-tg-blue hover:bg-sky-500 text-white transition-colors flex-shrink-0" title="Надіслати">
-                                    <svg class="w-5 h-5 transform rotate-90" fill="currentColor" viewBox="0 0 20 20"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/></svg>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+              </div>
             </div>
-        </section>
 
-        <!-- ========================================================================= -->
-        <!-- СТОРІНКА 5: ПРО ПРОЄКТ ТА КОНТАКТИ (ABOUT & CONTACT)                      -->
-        <!-- ========================================================================= -->
-        <section id="page-contact" class="page-section">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
-                    
-                    <!-- Ліва колонка: Паспорт практичної роботи (для звіту) -->
-                    <div class="lg:col-span-6 space-y-6">
-                        <div>
-                            <span class="text-xs font-semibold uppercase tracking-wider text-tg-blueLight">Інформація про проєкт</span>
-                            <h1 class="text-3xl font-extrabold text-white mt-2 mb-4">Мета та структура вебсайту</h1>
-                            <p class="text-sm text-tg-muted leading-relaxed">
-                                Цей багатосторінковий вебпортал розроблено в межах виконання практичної роботи №2 з дисципліни <strong>«Вступ до фаху»</strong> з використанням сучасних інструментів штучного інтелекту та вебтехнологій.
-                            </p>
-                        </div>
-
-                        <div class="bg-tg-surface border border-tg-border rounded-2xl p-6 space-y-4">
-                            <h3 class="font-bold text-white text-base border-b border-tg-border pb-3">Паспорт роботи (ВНТУ)</h3>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                                <div>
-                                    <span class="text-tg-muted block">Навчальний заклад:</span>
-                                    <span class="text-white font-medium">Вінницький національний технічний університет</span>
-                                </div>
-                                <div>
-                                    <span class="text-tg-muted block">Факультет та кафедра:</span>
-                                    <span class="text-white font-medium">ФІІТА, Кафедра комп'ютерних наук</span>
-                                </div>
-                                <div>
-                                    <span class="text-tg-muted block">Виконала студентка:</span>
-                                    <span class="text-tg-blueLight font-semibold">Вишневська Дарія (група 3КН-26б)</span>
-                                </div>
-                                <div>
-                                    <span class="text-tg-muted block">Тема проєкту:</span>
-                                    <span class="text-white font-medium">«Розробка та можливості Telegram-ботів»</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-tg-surface border border-tg-border rounded-2xl p-6">
-                            <h3 class="font-bold text-white text-base mb-3">Реалізований функціонал:</h3>
-                            <ul class="space-y-2 text-xs text-tg-muted">
-                                <li class="flex items-center gap-2"><span class="text-emerald-400">✔</span> Багатосторінкова архітектура (5 тематичних розділів із навігацією)</li>
-                                <li class="flex items-center gap-2"><span class="text-emerald-400">✔</span> Адаптивний дизайн у фірмовій темній стилістиці Telegram</li>
-                                <li class="flex items-center gap-2"><span class="text-emerald-400">✔</span> Інтерактивний фільтр категорій ботів та переглядач коду Python</li>
-                                <li class="flex items-center gap-2"><span class="text-emerald-400">✔</span> Вбудований симулятор живого діалогу з ботом @VNTU_Helper_Bot</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Права колонка: Форма зворотного зв'язку / замовлення консультації -->
-                    <div class="lg:col-span-6">
-                        <div class="bg-tg-surface border border-tg-border rounded-2xl p-6 sm:p-8">
-                            <h2 class="text-2xl font-bold text-white mb-2">Залишити заявку або питання</h2>
-                            <p class="text-xs sm:text-sm text-tg-muted mb-6">
-                                Хочете замовити розробку власного Telegram-бота або отримати матеріали для навчання? Заповніть форму нижче:
-                            </p>
-
-                            <form onsubmit="handleContactForm(event)" class="space-y-4">
-                                <div>
-                                    <label class="block text-xs font-medium text-slate-300 mb-1.5">Ваше ім'я</label>
-                                    <input type="text" id="contact-name" required placeholder="Наприклад: Олена"
-                                        class="w-full bg-tg-bg border border-tg-border focus:border-tg-blue rounded-xl px-4 py-3 text-sm text-white placeholder-tg-muted focus:outline-none">
-                                </div>
-
-                                <div>
-                                    <label class="block text-xs font-medium text-slate-300 mb-1.5">Ваш нікнейм у Telegram або Email</label>
-                                    <input type="text" id="contact-tg" required placeholder="@username або email@gmail.com"
-                                        class="w-full bg-tg-bg border border-tg-border focus:border-tg-blue rounded-xl px-4 py-3 text-sm text-white placeholder-tg-muted focus:outline-none">
-                                </div>
-
-                                <div>
-                                    <label class="block text-xs font-medium text-slate-300 mb-1.5">Який бот вас цікавить?</label>
-                                    <select id="contact-type" class="w-full bg-tg-bg border border-tg-border focus:border-tg-blue rounded-xl px-4 py-3 text-sm text-white focus:outline-none">
-                                        <option value="study">Навчальний проєкт / консультація</option>
-                                        <option value="shop">Бот-магазин для бізнесу</option>
-                                        <option value="ai">AI-асистент на базі нейромереж</option>
-                                        <option value="miniapp">Telegram Mini App (веб-додаток)</option>
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <label class="block text-xs font-medium text-slate-300 mb-1.5">Коментар або ідея проєкту</label>
-                                    <textarea id="contact-msg" rows="3" placeholder="Опишіть коротко завдання..."
-                                        class="w-full bg-tg-bg border border-tg-border focus:border-tg-blue rounded-xl px-4 py-3 text-sm text-white placeholder-tg-muted focus:outline-none"></textarea>
-                                </div>
-
-                                <button type="submit" class="w-full py-3.5 px-6 rounded-xl bg-tg-blue hover:bg-sky-500 text-white font-semibold text-sm shadow-lg shadow-tg-blue/25 transition-all">
-                                    Надіслати заявку
-                                </button>
-                            </form>
-
-                            <!-- Повідомлення про успішну відправку -->
-                            <div id="form-success-toast" class="hidden mt-4 p-4 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-3">
-                                <span class="text-lg">✅</span>
-                                <div>
-                                    <strong class="block text-emerald-200">Заявку успішно прийнято!</strong>
-                                    <span>Дякуємо за звернення. Наш бот уже формує відповідь для вас.</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+            <!-- Швидкі кнопки (Reply Keyboard) -->
+            <div class="px-3 py-2.5 bg-tg-surface border-t border-tg-border flex flex-wrap gap-1.5">
+              <button onclick="sendQuickCommand('/start')" class="px-3 py-1.5 rounded-lg bg-tg-card hover:bg-tg-blue hover:text-white text-xs font-medium text-slate-200 border border-tg-border transition-colors">/start</button>
+              <button onclick="sendQuickCommand('Що таке Bot API?')" class="px-3 py-1.5 rounded-lg bg-tg-card hover:bg-tg-blue hover:text-white text-xs font-medium text-slate-200 border border-tg-border transition-colors">📚 Що таке Bot API?</button>
+              <button onclick="sendQuickCommand('На чому пишуть ботів?')" class="px-3 py-1.5 rounded-lg bg-tg-card hover:bg-tg-blue hover:text-white text-xs font-medium text-slate-200 border border-tg-border transition-colors">💻 На чому пишуть ботів?</button>
+              <button onclick="sendQuickCommand('Зарплати в IT')" class="px-3 py-1.5 rounded-lg bg-tg-card hover:bg-tg-blue hover:text-white text-xs font-medium text-slate-200 border border-tg-border transition-colors">💰 Зарплати в IT</button>
+              <button onclick="sendQuickCommand('Хто автор?')" class="px-3 py-1.5 rounded-lg bg-tg-card hover:bg-tg-blue hover:text-white text-xs font-medium text-slate-200 border border-tg-border transition-colors">🎓 Хто автор?</button>
             </div>
-        </section>
 
-    </main>
-
-    <!-- ==================== ПІДВАЛ САЙТУ (FOOTER З АВТОРСТВОМ) ==================== -->
-    <footer class="bg-tg-surface border-t border-tg-border mt-auto">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-                <div class="text-center md:text-left">
-                    <div class="text-sm font-bold text-white">BotDev.ua — Освітній портал про Telegram-боти</div>
-                    <div class="text-xs text-tg-muted mt-1">
-                        Виконала студентка групи <span class="text-tg-blueLight font-semibold">3КН-26б — Вишневська Дарія</span> • ВНТУ, Кафедра комп'ютерних наук • 2026
-                    </div>
-                </div>
-                <div class="flex flex-wrap justify-center gap-4 text-xs text-tg-muted">
-                    <button onclick="navigateTo('home')" class="hover:text-white transition-colors">Головна</button>
-                    <button onclick="navigateTo('types')" class="hover:text-white transition-colors">Види ботів</button>
-                    <button onclick="navigateTo('tech')" class="hover:text-white transition-colors">Код та стек</button>
-                    <button onclick="navigateTo('demo')" class="hover:text-white transition-colors">Демо-бот</button>
-                    <button onclick="navigateTo('contact')" class="hover:text-white transition-colors">Контакти</button>
-                </div>
-            </div>
+            <!-- Поле вводу -->
+            <form onsubmit="handleChatSubmit(event)" class="p-3 bg-tg-card border-t border-tg-border flex items-center gap-2">
+              <input type="text" id="chat-input" placeholder="Напишіть повідомлення боту..." autocomplete="off" class="flex-grow px-4 py-2.5 rounded-xl bg-tg-bg border border-tg-border text-sm text-white placeholder-tg-muted focus:outline-none focus:border-tg-blue">
+              <button type="submit" class="p-2.5 rounded-xl bg-tg-blue hover:bg-tg-blueHover text-white transition-colors shrink-0">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+              </button>
+            </form>
+          </div>
         </div>
-    </footer>
+      </div>
+    </section>
 
-    <!-- ==================== ЛОГІКА БАГАТОСТОРОНКОВОСТІ ТА СИМУЛЯТОРА ==================== -->
-    <script>
-        // 1. НАВІГАЦІЯ МІЖ СТОРІНКАМИ (Multi-page SPA routing)
-        const validPages = ['home', 'types', 'tech', 'demo', 'contact'];
+    <!-- ==================== СТОРІНКА 5: ПРО ПРОЄКТ ТА ЗВ'ЯЗОК ==================== -->
+    <section id="page-about" class="page-section">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+          <!-- Інформація про роботу -->
+          <div class="space-y-6">
+            <div>
+              <span class="text-xs font-semibold uppercase tracking-wider text-tg-blue">Інформація про проєкт</span>
+              <h1 class="text-3xl sm:text-4xl font-bold text-white mt-1 mb-3">Мета та структура вебсайту</h1>
+              <p class="text-sm sm:text-base text-tg-muted leading-relaxed">
+                Цей багатосторінковий вебпортал розроблено в межах практичної роботи №2 з дисципліни <strong class="text-white">«Вступ до фаху»</strong> з використанням сучасних інструментів штучного інтелекту та вебтехнологій.
+              </p>
+            </div>
 
-        function navigateTo(pageId) {
-            if (!validPages.includes(pageId)) pageId = 'home';
+            <div class="p-6 rounded-2xl bg-tg-surface border border-tg-border space-y-4">
+              <h3 class="font-bold text-white text-lg border-b border-tg-border pb-3">Паспорт роботи (ВНТУ)</h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                <div>
+                  <div class="text-xs text-tg-muted">Навчальний заклад:</div>
+                  <div class="font-semibold text-white">Вінницький національний технічний університет</div>
+                </div>
+                <div>
+                  <div class="text-xs text-tg-muted">Факультет та кафедра:</div>
+                  <div class="font-semibold text-white">ФІІТА, Кафедра комп'ютерних наук</div>
+                </div>
+                <div>
+                  <div class="text-xs text-tg-muted">Виконала студентка:</div>
+                  <div class="font-semibold text-tg-blue">Вишневська Дарія (група 3КН-26б)</div>
+                </div>
+                <div>
+                  <div class="text-xs text-tg-muted">Тема проєкту:</div>
+                  <div class="font-semibold text-white">«Розробка та можливості Telegram-ботів»</div>
+                </div>
+              </div>
+            </div>
 
-            // Приховуємо всі сторінки та показуємо обрану
-            document.querySelectorAll('.page-section').forEach(sec => {
-                sec.classList.remove('active');
-            });
-            const target = document.getElementById('page-' + pageId);
-            if (target) target.classList.add('active');
+            <div class="p-6 rounded-2xl bg-tg-surface border border-tg-border space-y-3">
+              <h3 class="font-bold text-white text-base">Реалізований функціонал:</h3>
+              <ul class="space-y-2 text-xs sm:text-sm text-tg-muted">
+                <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Багатосторінкова архітектура (5 тематичних розділів із навігацією)</li>
+                <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Адаптивний дизайн у фірмовій темній стилістиці Telegram</li>
+                <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Інтерактивний фільтр категорій ботів та переглядач коду Python</li>
+                <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Вбудований симулятор живого діалогу з ботом @VNTU_Helper_Bot</li>
+              </ul>
+            </div>
 
-            // Оновлюємо активний стан кнопок навігації
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                if (btn.getAttribute('data-page') === pageId) {
-                    btn.classList.add('bg-tg-blue', 'text-white');
-                    btn.classList.remove('text-tg-muted', 'hover:text-white', 'hover:bg-tg-surfaceHover');
-                } else {
-                    btn.classList.remove('bg-tg-blue', 'text-white');
-                    btn.classList.add('text-tg-muted', 'hover:text-white', 'hover:bg-tg-surfaceHover');
-                }
-            });
+            <!-- Блок джерел інформації -->
+            <div class="p-6 rounded-2xl bg-tg-surface border border-tg-border space-y-3">
+              <h3 class="font-bold text-white text-base">Інформацію було взято (джерела):</h3>
+              <ul class="space-y-2 text-xs sm:text-sm text-tg-muted">
+                <li class="flex items-start gap-2">
+                  <span class="text-tg-blue">•</span>
+                  <span>Офіційна документація <a href="https://core.telegram.org/bots/api" target="_blank" rel="noopener noreferrer" class="text-tg-blue hover:underline">Telegram Bot API (core.telegram.org/bots/api)</a></span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-tg-blue">•</span>
+                  <span>Документація <a href="https://core.telegram.org/bots/webapps" target="_blank" rel="noopener noreferrer" class="text-tg-blue hover:underline">Telegram Mini Apps / Web Apps</a></span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-tg-blue">•</span>
+                  <span>Офіційна документація фреймворку <a href="https://docs.aiogram.dev/" target="_blank" rel="noopener noreferrer" class="text-tg-blue hover:underline">aiogram 3 (docs.aiogram.dev)</a> та бібліотеки <a href="https://telegraf.js.org/" target="_blank" rel="noopener noreferrer" class="text-tg-blue hover:underline">Telegraf.js</a></span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-tg-blue">•</span>
+                  <span>Аналітика IT-ринку України та зарплатних оглядів розробників на порталі <a href="https://jobs.dou.ua/" target="_blank" rel="noopener noreferrer" class="text-tg-blue hover:underline">DOU.ua</a></span>
+                </li>
+              </ul>
+            </div>
+          </div>
 
-            // Оновлюємо URL hash без перезавантаження
-            history.replaceState(null, '', '#' + pageId);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+          <!-- Форма зворотного зв'язку -->
+          <div class="p-6 sm:p-8 rounded-2xl bg-tg-surface border border-tg-border">
+            <h2 class="text-2xl font-bold text-white mb-2">Залишити заявку або питання</h2>
+            <p class="text-sm text-tg-muted mb-6">Хочете замовити розробку власного Telegram-бота або отримати матеріали для навчання? Заповніть форму нижче:</p>
+
+            <form onsubmit="handleContactSubmit(event)" class="space-y-4">
+              <div>
+                <label class="block text-xs font-medium text-slate-300 mb-1.5">Ваше ім'я</label>
+                <input type="text" required placeholder="Наприклад: Олена" class="w-full px-4 py-3 rounded-xl bg-tg-bg border border-tg-border text-sm text-white placeholder-tg-muted focus:outline-none focus:border-tg-blue">
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-slate-300 mb-1.5">Ваш нікнейм у Telegram або Email</label>
+                <input type="text" required placeholder="@username або email@gmail.com" class="w-full px-4 py-3 rounded-xl bg-tg-bg border border-tg-border text-sm text-white placeholder-tg-muted focus:outline-none focus:border-tg-blue">
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-slate-300 mb-1.5">Який бот вас цікавить?</label>
+                <select class="w-full px-4 py-3 rounded-xl bg-tg-bg border border-tg-border text-sm text-white focus:outline-none focus:border-tg-blue">
+                  <option>Навчальний проєкт / консультація</option>
+                  <option>Бот-магазин (E-commerce)</option>
+                  <option>AI-асистент на базі GPT / Gemini</option>
+                  <option>Telegram Mini App</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-slate-300 mb-1.5">Коментар або ідея проєкту</label>
+                <textarea rows="3" placeholder="Опишіть коротко завдання..." class="w-full px-4 py-3 rounded-xl bg-tg-bg border border-tg-border text-sm text-white placeholder-tg-muted focus:outline-none focus:border-tg-blue"></textarea>
+              </div>
+
+              <button type="submit" class="w-full py-3.5 rounded-xl bg-tg-blue hover:bg-tg-blueHover text-white font-semibold text-sm shadow-lg shadow-tg-blue/20 transition-all">
+                Відправити заявку
+              </button>
+            </form>
+
+            <div id="form-success" class="hidden mt-4 p-4 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-sm">
+              ✅ Дякуємо! Вашу заявку успішно зафіксовано. Ми зв'яжемося з вами найближчим часом.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Футер з авторством та джерелами -->
+  <footer class="bg-tg-surface border-t border-tg-border mt-auto">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-6 flex flex-col gap-4 text-xs text-tg-muted">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-2">
+          <span class="font-bold text-white">BotDev.ua</span>
+          <span>•</span>
+          <span>Практична робота №2 з дисципліни «Вступ до фаху»</span>
+        </div>
+        <div class="text-center sm:text-right">
+          Виконала студентка ВНТУ групи <strong class="text-tg-blue">3КН-26б</strong> — <strong class="text-white">Вишневська Дарія</strong>
+        </div>
+      </div>
+      <div class="pt-3 border-t border-tg-border/60 flex flex-wrap items-center justify-center sm:justify-start gap-x-3 gap-y-1 text-[11px]">
+        <span class="text-slate-300 font-medium">Джерела інформації:</span>
+        <a href="https://core.telegram.org/bots/api" target="_blank" rel="noopener noreferrer" class="text-tg-blue hover:underline">Telegram Bot API</a>
+        <span>•</span>
+        <a href="https://core.telegram.org/bots/webapps" target="_blank" rel="noopener noreferrer" class="text-tg-blue hover:underline">Telegram Mini Apps</a>
+        <span>•</span>
+        <a href="https://docs.aiogram.dev/" target="_blank" rel="noopener noreferrer" class="text-tg-blue hover:underline">aiogram 3 Docs</a>
+        <span>•</span>
+        <a href="https://telegraf.js.org/" target="_blank" rel="noopener noreferrer" class="text-tg-blue hover:underline">Telegraf.js</a>
+        <span>•</span>
+        <a href="https://jobs.dou.ua/" target="_blank" rel="noopener noreferrer" class="text-tg-blue hover:underline">DOU.ua</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Логіка навігації, коду та симулятора бота -->
+  <script>
+    const validPages = ['home', 'types', 'tech', 'demo', 'about'];
+
+    function navigateTo(pageId) {
+      if (!validPages.includes(pageId)) pageId = 'home';
+
+      document.querySelectorAll('.page-section').forEach(section => {
+        section.classList.remove('active');
+      });
+      const targetSection = document.getElementById('page-' + pageId);
+      if (targetSection) {
+        targetSection.classList.add('active');
+      }
+
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        if (btn.dataset.page === pageId) {
+          btn.classList.add('bg-tg-blue', 'text-white');
+          btn.classList.remove('text-tg-muted', 'hover:text-white', 'hover:bg-tg-card');
+        } else {
+          btn.classList.remove('bg-tg-blue', 'text-white');
+          btn.classList.add('text-tg-muted', 'hover:text-white', 'hover:bg-tg-card');
         }
+      });
 
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
+      document.querySelectorAll('.mobile-nav-btn').forEach(btn => {
+        if (btn.dataset.page === pageId) {
+          btn.classList.add('bg-tg-blue', 'text-white');
+          btn.classList.remove('text-tg-muted');
+        } else {
+          btn.classList.remove('bg-tg-blue', 'text-white');
+          btn.classList.add('text-tg-muted');
         }
+      });
 
-        // 2. ФІЛЬТРАЦІЯ КАРТОК НА СТОРІНЦІ "ВИДИ БОТІВ"
-        function filterBots(category) {
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('bg-tg-blue', 'text-white');
-                btn.classList.add('bg-tg-surface', 'text-tg-muted', 'border', 'border-tg-border');
-            });
-            event.target.classList.remove('bg-tg-surface', 'text-tg-muted', 'border', 'border-tg-border');
-            event.target.classList.add('bg-tg-blue', 'text-white');
+      window.location.hash = pageId;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
-            document.querySelectorAll('.bot-card').forEach(card => {
-                if (category === 'all' || card.getAttribute('data-category') === category) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+
+    function filterBots(category) {
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('bg-tg-blue', 'text-white');
+        btn.classList.add('bg-tg-surface', 'text-tg-muted', 'border', 'border-tg-border');
+      });
+      event.target.classList.add('bg-tg-blue', 'text-white');
+      event.target.classList.remove('bg-tg-surface', 'text-tg-muted', 'border', 'border-tg-border');
+
+      document.querySelectorAll('.bot-card').forEach(card => {
+        if (category === 'all' || card.dataset.category === category) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
         }
+      });
+    }
 
-        // 3. ПЕРЕГЛЯДАЧ КОДУ НА СТОРІНЦІ "ТЕХНОЛОГІЇ ТА КОД"
-        const codeSnippets = {
-            basic: `import asyncio
+    const codeSnippets = {
+      basic: `import asyncio
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import CommandStart
 
 # Токен, отриманий від @BotFather
 BOT_TOKEN = "YOUR_TELEGRAM_BOT_TOKEN"
 
+bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
 # Обробник команди /start
@@ -832,157 +733,163 @@ async def cmd_start(message: types.Message):
 
 # Запуск бота
 async def main():
-    bot = Bot(token=BOT_TOKEN)
     await dp.start_polling(bot)
 
 if __name__ == "__main__":
     asyncio.run(main())`,
 
-            buttons: `from aiogram import Bot, Dispatcher, types, F
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+      buttons: `from aiogram import Bot, Dispatcher, types, F
+from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-# Створюємо клавіатуру з кнопками для користувача
-main_kb = ReplyKeyboardMarkup(
-    keyboard=[
-        [KeyboardButton(text="📚 Про курс"), KeyboardButton(text="💻 Стек технологій")],
-        [KeyboardButton(text="🎓 Автор проєкту")]
-    ],
-    resize_keyboard=True
-)
+dp = Dispatcher()
 
-@dp.message(F.text == "🎓 Автор проєкту")
-async def about_author(message: types.Message):
-    await message.answer(
+# Створення інлайн-кнопок під повідомленням
+def get_main_keyboard():
+    builder = InlineKeyboardBuilder()
+    builder.button(text="📚 Розклад ВНТУ", callback_data="schedule")
+    builder.button(text="💻 Про проєкт", callback_data="about_project")
+    builder.adjust(2)  # 2 кнопки в рядку
+    return builder.as_markup()
+
+# Реакція на натискання кнопки
+@dp.callback_query(F.data == "about_project")
+async def process_about(callback: types.CallbackQuery):
+    await callback.message.answer(
         "Цей бот розроблений у межах практичної роботи ВНТУ.\\n"
         "Виконала: Вишневська Дарія, група 3КН-26б 🚀"
-    )`
-        };
+    )
+    await callback.answer()`
+    };
 
-        let currentCodeKey = 'basic';
+    let currentCodeKey = 'basic';
 
-        function switchCodeTab(key) {
-            currentCodeKey = key;
-            document.getElementById('code-display').textContent = codeSnippets[key];
-            
-            const btnBasic = document.getElementById('tab-basic');
-            const btnButtons = document.getElementById('tab-buttons');
-            
-            if (key === 'basic') {
-                btnBasic.className = 'px-3 py-1.5 rounded-lg text-xs font-medium bg-tg-blue text-white transition-colors';
-                btnButtons.className = 'px-3 py-1.5 rounded-lg text-xs font-medium bg-tg-surface text-tg-muted hover:text-white border border-tg-border transition-colors';
-            } else {
-                btnButtons.className = 'px-3 py-1.5 rounded-lg text-xs font-medium bg-tg-blue text-white transition-colors';
-                btnBasic.className = 'px-3 py-1.5 rounded-lg text-xs font-medium bg-tg-surface text-tg-muted hover:text-white border border-tg-border transition-colors';
-            }
-        }
+    function switchCodeTab(key) {
+      currentCodeKey = key;
+      document.getElementById('code-display').textContent = codeSnippets[key];
 
-        function copyCurrentCode() {
-            const textArea = document.createElement('textarea');
-            textArea.value = codeSnippets[currentCodeKey];
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
+      const btnBasic = document.getElementById('tab-basic');
+      const btnButtons = document.getElementById('tab-buttons');
 
-            const label = document.getElementById('copy-btn-text');
-            label.textContent = 'Скопійовано!';
-            setTimeout(() => { label.textContent = 'Копіювати'; }, 2000);
-        }
+      if (key === 'basic') {
+        btnBasic.className = 'px-3 py-1.5 rounded-lg text-xs font-medium bg-tg-blue text-white transition-colors';
+        btnButtons.className = 'px-3 py-1.5 rounded-lg text-xs font-medium bg-tg-surface text-tg-muted hover:text-white transition-colors';
+      } else {
+        btnButtons.className = 'px-3 py-1.5 rounded-lg text-xs font-medium bg-tg-blue text-white transition-colors';
+        btnBasic.className = 'px-3 py-1.5 rounded-lg text-xs font-medium bg-tg-surface text-tg-muted hover:text-white transition-colors';
+      }
+    }
 
-        // 4. ІНТЕРАКТИВНИЙ СИМУЛЯТОР TELEGRAM-БОТА
-        function getTimeStr() {
-            const now = new Date();
-            return now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
-        }
+    function copyCurrentCode() {
+      const textArea = document.createElement('textarea');
+      textArea.value = codeSnippets[currentCodeKey];
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
 
-        function appendMessage(text, isUser = false) {
-            const container = document.getElementById('chat-messages');
-            const wrapper = document.createElement('div');
-            wrapper.className = isUser ? 'flex justify-end' : 'flex justify-start';
+      const copyBtn = document.getElementById('copy-btn');
+      copyBtn.textContent = 'Скопійовано ✓';
+      setTimeout(() => {
+        copyBtn.textContent = 'Копіювати';
+      }, 2000);
+    }
 
-            const bubble = document.createElement('div');
-            bubble.className = isUser
-                ? 'max-w-[82%] rounded-2xl rounded-br-sm bg-tg-blueDark text-white px-4 py-2.5 text-xs sm:text-sm shadow'
-                : 'max-w-[85%] rounded-2xl rounded-bl-sm bg-tg-surface border border-tg-border text-slate-100 px-4 py-2.5 text-xs sm:text-sm shadow';
+    function getCurrentTime() {
+      const now = new Date();
+      return now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+    }
 
-            bubble.innerHTML = `
-                <div class="whitespace-pre-line leading-relaxed">${text}</div>
-                <div class="text-[10px] ${isUser ? 'text-sky-200/70' : 'text-tg-muted'} text-right mt-1">${getTimeStr()}</div>
-            `;
+    function getBotReply(userText) {
+      const text = userText.toLowerCase().trim();
 
-            wrapper.appendChild(bubble);
-            container.appendChild(wrapper);
-            container.scrollTop = container.scrollHeight;
-        }
+      if (text === '/start' || text.includes('привіт') || text.includes('старт')) {
+        return 'Система запущена! 🚀 Я демонстраційний бот <strong>@VNTU_Helper_Bot</strong>.<br><br>Ви можете запитати мене про <b>Bot API</b>, <b>мови програмування</b>, <b>зарплати розробників</b> або <b>автора проєкту</b>.';
+      }
+      if (text.includes('api') || text.includes('що таке')) {
+        return '<strong>Telegram Bot API</strong> — це відкритий HTTP-інтерфейс, створений для розробників, які хочуть підключати власні програми до Telegram.<br><br>Боти працюють на віддаленому сервері й спілкуються з користувачами через JSON-запити.';
+      }
+      if (text.includes('на чому') || text.includes('мов') || text.includes('стек') || text.includes('python')) {
+        return 'Найпопулярніші технології для створення ботів:<br>• <b>Python</b> (бібліотеки <code>aiogram 3</code>, <code>python-telegram-bot</code>)<br>• <b>JavaScript / TypeScript</b> (<code>Telegraf</code>, <code>grammY</code>)<br>• <b>Бази даних:</b> PostgreSQL, SQLite, Redis.';
+      }
+      if (text.includes('зарплат') || text.includes('гроші') || text.includes('дохід')) {
+        return 'За даними українського IT-ринку:<br>• <b>Junior Bot Dev:</b> $500 – $800<br>• <b>Middle Python/Node.js Dev:</b> $1,200 – $2,200<br>• <b>Senior Backend / Mini Apps:</b> $3,000+';
+      }
+      if (text.includes('автор') || text.includes('хто зробив') || text.includes('внту')) {
+        return 'Цей сайт та демо-бота розробила студентка <b>ВНТУ</b> (ФІІТА, кафедра комп\'ютерних наук), групи <b>3КН-26б</b> — <strong>Вишневська Дарія</strong> у межах практичної роботи №2 з дисципліни «Вступ до фаху»! 🎓';
+      }
+      return 'Цікаве запитання! 🤖 У реальному проєкті тут можна підключити нейромережу (GPT або Gemini API), щоб відповідати на будь-які запити. А поки спробуйте натиснути одну з команд у меню нижче!';
+    }
 
-        function getBotReply(userText) {
-            const q = userText.toLowerCase();
-            if (q.includes('/start') || q.includes('привіт')) {
-                return "Привіт! 👋 Я інтерактивний бот <b>@VNTU_Helper_Bot</b>.\n\nЯ можу розповісти про:\n• Telegram Bot API та принцип роботи ботів\n• Мови програмування (Python, Node.js)\n• Зарплати розробників в IT\n\nНатисни на будь-яку кнопку нижче або постав своє запитання!";
-            }
-            if (q.includes('api') || q.includes('що таке')) {
-                return "📚 <b>Telegram Bot API</b> — це спеціальний інтерфейс, який дозволяє вашій програмі керувати акаунтом бота.\n\nКоли ви натискаєте кнопку, Telegram надсилає JSON-запит на сервер розробника, а програма миттєво повертає відповідь у чат.";
-            }
-            if (q.includes('пишуть') || q.includes('стек') || q.includes('python') || q.includes('код')) {
-                return "💻 <b>Найкращий стек для розробки ботів:</b>\n\n1. <b>Python + aiogram 3</b> — легкий синтаксис і висока швидкість.\n2. <b>Node.js + Telegraf</b> — чудово підходить для Web Apps.\n3. <b>PostgreSQL</b> — для збереження даних користувачів.\n\nПриклади готового коду можна переглянути у вкладці «Технології та код»!";
-            }
-            if (q.includes('зарплат') || q.includes('заробляють') || q.includes('гроші')) {
-                return "💰 <b>Рівень доходу Bot / Backend розробників:</b>\n\n• <b>Junior:</b> $500 – $900 / міс (або $100–300 за проєкт на фрілансі)\n• <b>Middle:</b> $1,500 – $2,800 / міс\n• <b>Senior / AI Architect:</b> $3,500+ / міс";
-            }
-            if (q.includes('автор') || q.includes('хто') || q.includes('внту')) {
-                return "🎓 Цей сайт і симулятор бота розроблені для практичної роботи з дисципліни <b>«Вступ до фаху»</b>.\n\n<b>Авторка:</b> Вишневська Дарія, студентка групи <b>3КН-26б</b> (ВНТУ, ФІІТА).";
-            }
-            return "Цікаве запитання! 🤖 У реальному проєкті тут можна підключити нейромережу (GPT або Gemini API), щоб бот відповідав на будь-які вільні теми.\n\nСпробуйте також натиснути кнопки швидких команд внизу 👇";
-        }
+    function appendMessage(text, isUser) {
+      const container = document.getElementById('chat-messages');
+      const wrapper = document.createElement('div');
+      wrapper.className = isUser ? 'flex justify-end' : 'flex items-start gap-2.5 max-w-[85%]';
 
-        function sendUserMessage(text) {
-            if (!text.trim()) return;
-            appendMessage(text, true);
+      const bubble = document.createElement('div');
+      bubble.className = isUser
+        ? 'p-3.5 rounded-2xl rounded-tr-sm bg-tg-msgOut text-sm text-white shadow-sm max-w-[85%]'
+        : 'p-3.5 rounded-2xl rounded-tl-sm bg-tg-msgIn border border-tg-border/60 text-sm text-slate-100 shadow-sm';
 
-            const statusEl = document.getElementById('bot-status-text');
-            statusEl.textContent = 'друкує...';
-            statusEl.classList.add('animate-pulse');
+      bubble.innerHTML = `<div>${text}</div><div class="text-[10px] ${isUser ? 'text-blue-200/70' : 'text-tg-muted'} text-right mt-1">${getCurrentTime()}</div>`;
 
-            setTimeout(() => {
-                statusEl.textContent = 'бот готовий до роботи';
-                statusEl.classList.remove('animate-pulse');
-                appendMessage(getBotReply(text), false);
-            }, 600);
-        }
+      wrapper.appendChild(bubble);
+      container.appendChild(wrapper);
+      container.scrollTop = container.scrollHeight;
+    }
 
-        function handleChatSubmit(e) {
-            e.preventDefault();
-            const input = document.getElementById('chat-input');
-            const val = input.value;
-            if (!val.trim()) return;
-            input.value = '';
-            sendUserMessage(val);
-        }
+    function sendQuickCommand(cmd) {
+      processUserMessage(cmd);
+    }
 
-        function resetChat() {
-            const container = document.getElementById('chat-messages');
-            container.innerHTML = '';
-            appendMessage("Вітаю! 👋 Я демонстраційний Telegram-бот <b>@VNTU_Helper_Bot</b>.\nОберіть команду внизу або напишіть мені повідомлення!", false);
-        }
+    function handleChatSubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById('chat-input');
+      const val = input.value.trim();
+      if (!val) return;
+      input.value = '';
+      processUserMessage(val);
+    }
 
-        // 5. ОБРОБКА ФОРМИ КОНТАКТІВ
-        function handleContactForm(e) {
-            e.preventDefault();
-            const toast = document.getElementById('form-success-toast');
-            toast.classList.remove('hidden');
-            e.target.reset();
-            setTimeout(() => {
-                toast.classList.add('hidden');
-            }, 5000);
-        }
+    function processUserMessage(text) {
+      appendMessage(text, true);
 
-        // Ініціалізація при завантаженні сторінки
-        window.addEventListener('DOMContentLoaded', () => {
-            const initialHash = window.location.hash.replace('#', '');
-            navigateTo(initialHash || 'home');
-            switchCodeTab('basic');
-            resetChat();
-        });
-    </script>
+      const statusEl = document.getElementById('bot-status');
+      statusEl.textContent = 'друкує...';
+
+      setTimeout(() => {
+        const reply = getBotReply(text);
+        appendMessage(reply, false);
+        statusEl.textContent = 'бот готовий до роботи';
+      }, 450);
+    }
+
+    function resetChat() {
+      const container = document.getElementById('chat-messages');
+      container.innerHTML = `
+        <div class="flex items-start gap-2.5 max-w-[85%]">
+          <div class="p-3.5 rounded-2xl rounded-tl-sm bg-tg-msgIn border border-tg-border/60 text-sm text-slate-100 shadow-sm">
+            <p>Історію очищено! 🔄 Натисніть <b>/start</b> або оберіть команду внизу.</p>
+            <div class="text-[10px] text-tg-muted text-right mt-1">${getCurrentTime()}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function handleContactSubmit(e) {
+      e.preventDefault();
+      e.target.reset();
+      const successBox = document.getElementById('form-success');
+      successBox.classList.remove('hidden');
+      setTimeout(() => {
+        successBox.classList.add('hidden');
+      }, 5000);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      switchCodeTab('basic');
+      const initialHash = window.location.hash.replace('#', '') || 'home';
+      navigateTo(initialHash);
+    });
+  </script>
 </body>
 </html>
