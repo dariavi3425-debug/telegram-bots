@@ -17,20 +17,20 @@
             mono: ['JetBrains Mono', 'monospace'],
           },
           colors: {
-            cream: {
-              bg: '#FAF6F0',
-              card: '#FFFDF9',
-              soft: '#F3ECE1',
-              border: '#E6DCCD'
+            lav: {
+              bg: '#F7F4FC',
+              card: '#FDFBFF',
+              soft: '#EFE9FA',
+              border: '#E2D6F5'
             },
-            brand: {
-              teal: '#0F766E',
-              tealLight: '#14B8A6',
-              coral: '#EA580C',
-              amber: '#D97706',
-              indigo: '#4338CA',
-              ink: '#1C1917',
-              muted: '#57534E'
+            plum: {
+              main: '#7C3AED',
+              deep: '#5B21B6',
+              light: '#A78BFA',
+              orchid: '#D946EF',
+              indigo: '#4F46E5',
+              ink: '#1E1633',
+              muted: '#5E5473'
             }
           }
         }
@@ -39,8 +39,8 @@
   </script>
   <style>
     body {
-      background-color: #FAF6F0;
-      color: #1C1917;
+      background-color: #F7F4FC;
+      color: #1E1633;
       overflow-x: hidden;
     }
     .page-section {
@@ -77,39 +77,39 @@
       animation: popIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .gradient-text {
-      background: linear-gradient(135deg, #0F766E 0%, #EA580C 55%, #4338CA 100%);
+      background: linear-gradient(135deg, #6D28D9 0%, #9333EA 50%, #D946EF 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
     .hero-mesh {
-      background-color: #FAF6F0;
+      background-color: #F7F4FC;
       background-image:
-        radial-gradient(at 12% 18%, rgba(20, 184, 166, 0.22) 0px, transparent 50%),
-        radial-gradient(at 88% 15%, rgba(234, 88, 12, 0.18) 0px, transparent 50%),
-        radial-gradient(at 50% 90%, rgba(67, 56, 202, 0.14) 0px, transparent 55%);
+        radial-gradient(at 12% 18%, rgba(167, 139, 250, 0.28) 0px, transparent 52%),
+        radial-gradient(at 88% 15%, rgba(217, 70, 239, 0.20) 0px, transparent 50%),
+        radial-gradient(at 50% 90%, rgba(124, 58, 237, 0.16) 0px, transparent 55%);
     }
     .chat-pattern {
-      background-color: #EFE7DA;
-      background-image: radial-gradient(rgba(15, 118, 110, 0.16) 1.5px, transparent 1.5px);
+      background-color: #EDE6F9;
+      background-image: radial-gradient(rgba(124, 58, 237, 0.16) 1.5px, transparent 1.5px);
       background-size: 18px 18px;
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col font-sans antialiased selection:bg-brand-teal selection:text-white">
+<body class="min-h-screen flex flex-col font-sans antialiased selection:bg-plum-main selection:text-white">
 
   <!-- Навігаційна панель -->
-  <header class="sticky top-0 z-50 bg-cream-card/90 backdrop-blur-lg border-b border-cream-border shadow-sm">
+  <header class="sticky top-0 z-50 bg-lav-card/90 backdrop-blur-lg border-b border-lav-border shadow-sm">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
       <!-- Логотип -->
       <a href="#home" onclick="navigateTo('home'); return false;" class="flex items-center gap-3 group">
-        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-brand-teal via-teal-500 to-brand-coral flex items-center justify-center shadow-lg shadow-teal-700/20 group-hover:rotate-6 group-hover:scale-105 transition-all">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-plum-deep via-plum-main to-plum-orchid flex items-center justify-center shadow-lg shadow-purple-600/25 group-hover:rotate-6 group-hover:scale-105 transition-all">
           <svg class="w-5 h-5 text-white -ml-0.5" fill="currentColor" viewBox="0 0 24 24">
             <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
           </svg>
         </div>
         <div>
-          <span class="font-extrabold text-lg tracking-tight text-brand-ink">BotDev<span class="gradient-text">.ua</span></span>
-          <span class="hidden sm:block text-[11px] font-bold text-brand-teal leading-none">ВНТУ • 3КН-26б</span>
+          <span class="font-extrabold text-lg tracking-tight text-plum-ink">BotDev<span class="gradient-text">.ua</span></span>
+          <span class="hidden sm:block text-[11px] font-bold text-plum-main leading-none">ВНТУ • 3КН-26б</span>
         </div>
       </a>
 
@@ -119,14 +119,14 @@
         <button data-page="types" onclick="navigateTo('types')" class="nav-btn px-3.5 py-2 rounded-xl text-sm font-bold transition-all">Види та відео</button>
         <button data-page="tech" onclick="navigateTo('tech')" class="nav-btn px-3.5 py-2 rounded-xl text-sm font-bold transition-all">Код і квіз</button>
         <button data-page="demo" onclick="navigateTo('demo')" class="nav-btn px-3.5 py-2 rounded-xl text-sm font-bold transition-all flex items-center gap-1.5">
-          <span class="w-2.5 h-2.5 rounded-full bg-brand-coral animate-ping"></span>
+          <span class="w-2.5 h-2.5 rounded-full bg-plum-orchid animate-ping"></span>
           Демо-бот
         </button>
         <button data-page="about" onclick="navigateTo('about')" class="nav-btn px-3.5 py-2 rounded-xl text-sm font-bold transition-all">Про проєкт</button>
       </nav>
 
       <!-- Мобільна кнопка меню -->
-      <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-xl text-brand-ink hover:bg-cream-soft">
+      <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-xl text-plum-ink hover:bg-lav-soft">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
         </svg>
@@ -134,7 +134,7 @@
     </div>
 
     <!-- Мобільне меню -->
-    <div id="mobile-menu" class="hidden lg:hidden border-t border-cream-border bg-cream-card px-4 py-3 space-y-1">
+    <div id="mobile-menu" class="hidden lg:hidden border-t border-lav-border bg-lav-card px-4 py-3 space-y-1">
       <button data-page="home" onclick="navigateTo('home'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-bold">Головна</button>
       <button data-page="types" onclick="navigateTo('types'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-bold">Види та відео</button>
       <button data-page="tech" onclick="navigateTo('tech'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-bold">Код і квіз</button>
@@ -148,87 +148,87 @@
 
     <!-- ==================== СТОРІНКА 1: ГОЛОВНА ==================== -->
     <section id="page-home" class="page-section active">
-      <div class="relative overflow-hidden hero-mesh border-b border-cream-border">
-        <!-- Декоративні плаваючі сфери -->
-        <div class="absolute -top-20 -left-20 w-72 h-72 bg-teal-400/20 rounded-full blur-3xl animate-blob pointer-events-none"></div>
-        <div class="absolute top-28 -right-20 w-80 h-80 bg-orange-400/20 rounded-full blur-3xl animate-blob pointer-events-none"></div>
+      <div class="relative overflow-hidden hero-mesh border-b border-lav-border">
+        <!-- Декоративні лавандові сфери -->
+        <div class="absolute -top-20 -left-20 w-72 h-72 bg-purple-400/25 rounded-full blur-3xl animate-blob pointer-events-none"></div>
+        <div class="absolute top-28 -right-20 w-80 h-80 bg-fuchsia-400/20 rounded-full blur-3xl animate-blob pointer-events-none"></div>
 
         <div class="max-w-6xl mx-auto px-4 sm:px-6 py-14 sm:py-20 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
           <!-- Ліва частина -->
           <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cream-card border border-cream-border shadow-sm text-xs font-bold text-brand-teal">
-              <span class="w-2 h-2 rounded-full bg-brand-coral animate-ping"></span>
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-lav-card border border-lav-border shadow-sm text-xs font-bold text-plum-main">
+              <span class="w-2 h-2 rounded-full bg-plum-orchid animate-ping"></span>
               <span>Практична робота №2 • ВНТУ • 3КН-26б</span>
             </div>
 
-            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-brand-ink leading-[1.12]">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-plum-ink leading-[1.12]">
               Створюй розумних <span class="gradient-text">Telegram-ботів</span> нового покоління
             </h1>
 
-            <p class="text-base sm:text-lg text-brand-muted max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+            <p class="text-base sm:text-lg text-plum-muted max-w-2xl mx-auto lg:mx-0 leading-relaxed">
               Інтерактивний портал про розробку чат-ботів, AI-асистентів та Mini Apps: від першого рядка коду на Python до автоматизації навчання у ВНТУ та бізнесу.
             </p>
 
             <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3.5 pt-2">
-              <button onclick="navigateTo('demo')" class="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-brand-teal to-brand-coral hover:opacity-95 text-white font-bold text-sm shadow-xl shadow-teal-800/20 hover:-translate-y-0.5 transition-all flex items-center gap-2">
+              <button onclick="navigateTo('demo')" class="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-plum-deep via-plum-main to-plum-orchid hover:opacity-95 text-white font-bold text-sm shadow-xl shadow-purple-700/25 hover:-translate-y-0.5 transition-all flex items-center gap-2">
                 <span>🚀 Запустити демо-бота</span>
               </button>
-              <button onclick="navigateTo('types')" class="px-6 py-3.5 rounded-2xl bg-cream-card hover:bg-cream-soft text-brand-ink font-bold text-sm border border-cream-border shadow-sm hover:-translate-y-0.5 transition-all flex items-center gap-2">
+              <button onclick="navigateTo('types')" class="px-6 py-3.5 rounded-2xl bg-lav-card hover:bg-lav-soft text-plum-ink font-bold text-sm border border-lav-border shadow-sm hover:-translate-y-0.5 transition-all flex items-center gap-2">
                 <span>🎬 Дивитися відеоогляд</span>
               </button>
             </div>
 
             <!-- Живі лічильники -->
             <div class="grid grid-cols-3 gap-4 pt-4 max-w-lg mx-auto lg:mx-0">
-              <div class="p-3.5 rounded-2xl bg-cream-card border border-cream-border shadow-sm">
-                <div class="text-2xl sm:text-3xl font-extrabold text-brand-teal counter" data-target="950">0</div>
-                <div class="text-[11px] font-semibold text-brand-muted">млн користувачів TG</div>
+              <div class="p-3.5 rounded-2xl bg-lav-card border border-lav-border shadow-sm">
+                <div class="text-2xl sm:text-3xl font-extrabold text-plum-main counter" data-target="950">0</div>
+                <div class="text-[11px] font-semibold text-plum-muted">млн користувачів TG</div>
               </div>
-              <div class="p-3.5 rounded-2xl bg-cream-card border border-cream-border shadow-sm">
-                <div class="text-2xl sm:text-3xl font-extrabold text-brand-coral counter" data-target="24">0</div>
-                <div class="text-[11px] font-semibold text-brand-muted">години роботи 24/7</div>
+              <div class="p-3.5 rounded-2xl bg-lav-card border border-lav-border shadow-sm">
+                <div class="text-2xl sm:text-3xl font-extrabold text-plum-orchid counter" data-target="24">0</div>
+                <div class="text-[11px] font-semibold text-plum-muted">години роботи 24/7</div>
               </div>
-              <div class="p-3.5 rounded-2xl bg-cream-card border border-cream-border shadow-sm">
-                <div class="text-2xl sm:text-3xl font-extrabold text-brand-indigo counter" data-target="100">0</div>
-                <div class="text-[11px] font-semibold text-brand-muted">% кросплатформність</div>
+              <div class="p-3.5 rounded-2xl bg-lav-card border border-lav-border shadow-sm">
+                <div class="text-2xl sm:text-3xl font-extrabold text-plum-indigo counter" data-target="100">0</div>
+                <div class="text-[11px] font-semibold text-plum-muted">% кросплатформність</div>
               </div>
             </div>
           </div>
 
           <!-- Права частина: анімований мокап чату -->
           <div class="lg:col-span-5 flex justify-center">
-            <div class="w-full max-w-sm rounded-3xl bg-cream-card border-4 border-cream-card shadow-2xl shadow-stone-900/15 overflow-hidden animate-float">
-              <div class="px-4 py-3.5 bg-gradient-to-r from-brand-teal to-teal-600 text-white flex items-center justify-between">
+            <div class="w-full max-w-sm rounded-3xl bg-lav-card border-4 border-lav-card shadow-2xl shadow-purple-950/15 overflow-hidden animate-float">
+              <div class="px-4 py-3.5 bg-gradient-to-r from-plum-deep via-plum-main to-purple-600 text-white flex items-center justify-between">
                 <div class="flex items-center gap-2.5">
                   <div class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center text-lg">🤖</div>
                   <div>
                     <div class="font-bold text-sm leading-tight">VNTU Smart Assistant</div>
-                    <div class="text-[11px] text-teal-100">бот • миттєва відповідь</div>
+                    <div class="text-[11px] text-purple-100">бот • миттєва відповідь</div>
                   </div>
                 </div>
-                <span class="px-2 py-0.5 rounded-full bg-amber-400/25 text-amber-100 text-[10px] font-bold">ONLINE</span>
+                <span class="px-2 py-0.5 rounded-full bg-fuchsia-400/25 text-fuchsia-100 text-[10px] font-bold">ONLINE</span>
               </div>
 
               <div class="p-4 space-y-3 chat-pattern text-xs">
-                <div class="p-3 rounded-2xl rounded-tl-sm bg-cream-card text-brand-ink shadow-sm max-w-[85%] border border-cream-border/70">
+                <div class="p-3 rounded-2xl rounded-tl-sm bg-lav-card text-plum-ink shadow-sm max-w-[85%] border border-lav-border/80">
                   Привіт! 👋 Я допомагаю студентам і викладачам ВНТУ автоматизувати рутину. Обери дію:
                 </div>
                 <div class="flex justify-end">
-                  <div class="p-3 rounded-2xl rounded-tr-sm bg-gradient-to-r from-brand-coral to-orange-500 text-white shadow-sm font-medium">
+                  <div class="p-3 rounded-2xl rounded-tr-sm bg-gradient-to-r from-plum-main to-plum-orchid text-white shadow-sm font-medium">
                     📅 Розклад групи 3КН-26б
                   </div>
                 </div>
-                <div class="p-3 rounded-2xl rounded-tl-sm bg-cream-card text-brand-ink shadow-sm max-w-[90%] border border-cream-border/70">
-                  <strong class="text-brand-teal">Сьогодні, четвер:</strong><br>
+                <div class="p-3 rounded-2xl rounded-tl-sm bg-lav-card text-plum-ink shadow-sm max-w-[90%] border border-lav-border/80">
+                  <strong class="text-plum-main">Сьогодні, четвер:</strong><br>
                   1. Вступ до фаху (Практика) ✅<br>
                   2. Алгоритмізація та програмування 💻<br>
-                  <span class="text-[10px] text-brand-coral font-bold mt-1 inline-block">Дедлайн звіту: виконано на 100%!</span>
+                  <span class="text-[10px] text-plum-orchid font-bold mt-1 inline-block">Дедлайн звіту: виконано на 100%!</span>
                 </div>
                 <div class="grid grid-cols-2 gap-1.5 pt-1">
-                  <button onclick="navigateTo('demo')" class="py-2 px-2.5 rounded-xl bg-cream-card hover:bg-brand-teal hover:text-white text-brand-teal font-bold text-center shadow-sm border border-cream-border transition-colors">
+                  <button onclick="navigateTo('demo')" class="py-2 px-2.5 rounded-xl bg-lav-card hover:bg-plum-main hover:text-white text-plum-main font-bold text-center shadow-sm border border-lav-border transition-colors">
                     Відкрити чат →
                   </button>
-                  <button onclick="navigateTo('tech')" class="py-2 px-2.5 rounded-xl bg-cream-card hover:bg-brand-coral hover:text-white text-brand-coral font-bold text-center shadow-sm border border-cream-border transition-colors">
+                  <button onclick="navigateTo('tech')" class="py-2 px-2.5 rounded-xl bg-lav-card hover:bg-plum-orchid hover:text-white text-plum-orchid font-bold text-center shadow-sm border border-lav-border transition-colors">
                     Пройти квіз 🧠
                   </button>
                 </div>
@@ -241,79 +241,79 @@
       <!-- Інтерактивний конструктор бота -->
       <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16">
         <div class="text-center mb-10">
-          <span class="px-3.5 py-1 rounded-full bg-orange-100 text-brand-coral text-xs font-bold">Інтерактивний конструктор</span>
-          <h2 class="text-3xl sm:text-4xl font-extrabold text-brand-ink mt-2 mb-3">Збери свого ідеального Telegram-бота</h2>
-          <p class="text-brand-muted max-w-2xl mx-auto text-sm sm:text-base">Познач потрібні модулі — система автоматично розрахує стек технологій, складність та орієнтовний час створення бота:</p>
+          <span class="px-3.5 py-1 rounded-full bg-purple-100 text-plum-main text-xs font-bold">Інтерактивний конструктор</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-plum-ink mt-2 mb-3">Збери свого ідеального Telegram-бота</h2>
+          <p class="text-plum-muted max-w-2xl mx-auto text-sm sm:text-base">Познач потрібні модулі — система автоматично розрахує стек технологій, складність та орієнтовний час створення бота:</p>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-3.5" id="builder-options">
-            <label class="cursor-pointer p-4 rounded-2xl bg-cream-card border-2 border-brand-teal shadow-sm flex items-start gap-3 transition-all">
-              <input type="checkbox" checked data-hours="4" data-tech="aiogram 3" onchange="updateBotBuilder()" class="mt-1 w-4 h-4 accent-teal-700">
+            <label class="cursor-pointer p-4 rounded-2xl bg-lav-card border-2 border-plum-main shadow-sm flex items-start gap-3 transition-all">
+              <input type="checkbox" checked data-hours="4" data-tech="aiogram 3" onchange="updateBotBuilder()" class="mt-1 w-4 h-4 accent-purple-600">
               <div>
-                <div class="font-bold text-brand-ink text-sm">🎛️ Інтерактивне меню та кнопки</div>
-                <p class="text-xs text-brand-muted mt-0.5">Зручна навігація без введення команд вручну</p>
+                <div class="font-bold text-plum-ink text-sm">🎛️ Інтерактивне меню та кнопки</div>
+                <p class="text-xs text-plum-muted mt-0.5">Зручна навігація без введення команд вручну</p>
               </div>
             </label>
 
-            <label class="cursor-pointer p-4 rounded-2xl bg-cream-card border-2 border-cream-border hover:border-brand-coral shadow-sm flex items-start gap-3 transition-all">
-              <input type="checkbox" data-hours="10" data-tech="OpenAI / Gemini API" onchange="updateBotBuilder()" class="mt-1 w-4 h-4 accent-orange-600">
+            <label class="cursor-pointer p-4 rounded-2xl bg-lav-card border-2 border-lav-border hover:border-plum-orchid shadow-sm flex items-start gap-3 transition-all">
+              <input type="checkbox" data-hours="10" data-tech="OpenAI / Gemini API" onchange="updateBotBuilder()" class="mt-1 w-4 h-4 accent-fuchsia-600">
               <div>
-                <div class="font-bold text-brand-ink text-sm">🧠 Інтеграція штучного інтелекту</div>
-                <p class="text-xs text-brand-muted mt-0.5">Розумні відповіді, генерація текстів та підказок</p>
+                <div class="font-bold text-plum-ink text-sm">🧠 Інтеграція штучного інтелекту</div>
+                <p class="text-xs text-plum-muted mt-0.5">Розумні відповіді, генерація текстів та підказок</p>
               </div>
             </label>
 
-            <label class="cursor-pointer p-4 rounded-2xl bg-cream-card border-2 border-cream-border hover:border-brand-teal shadow-sm flex items-start gap-3 transition-all">
-              <input type="checkbox" data-hours="8" data-tech="PostgreSQL + Google Sheets" onchange="updateBotBuilder()" class="mt-1 w-4 h-4 accent-teal-700">
+            <label class="cursor-pointer p-4 rounded-2xl bg-lav-card border-2 border-lav-border hover:border-plum-main shadow-sm flex items-start gap-3 transition-all">
+              <input type="checkbox" data-hours="8" data-tech="PostgreSQL + Google Sheets" onchange="updateBotBuilder()" class="mt-1 w-4 h-4 accent-purple-600">
               <div>
-                <div class="font-bold text-brand-ink text-sm">📊 База даних та звіти в Excel</div>
-                <p class="text-xs text-brand-muted mt-0.5">Збереження балів студентів або замовлень клієнтів</p>
+                <div class="font-bold text-plum-ink text-sm">📊 База даних та звіти в Excel</div>
+                <p class="text-xs text-plum-muted mt-0.5">Збереження балів студентів або замовлень клієнтів</p>
               </div>
             </label>
 
-            <label class="cursor-pointer p-4 rounded-2xl bg-cream-card border-2 border-cream-border hover:border-brand-indigo shadow-sm flex items-start gap-3 transition-all">
-              <input type="checkbox" data-hours="12" data-tech="Telegram WebApp (HTML/JS)" onchange="updateBotBuilder()" class="mt-1 w-4 h-4 accent-indigo-700">
+            <label class="cursor-pointer p-4 rounded-2xl bg-lav-card border-2 border-lav-border hover:border-plum-indigo shadow-sm flex items-start gap-3 transition-all">
+              <input type="checkbox" data-hours="12" data-tech="Telegram WebApp (HTML/JS)" onchange="updateBotBuilder()" class="mt-1 w-4 h-4 accent-indigo-600">
               <div>
-                <div class="font-bold text-brand-ink text-sm">📱 Вбудований Mini App інтерфейс</div>
-                <p class="text-xs text-brand-muted mt-0.5">Повноцінний графічний вебдодаток усередині чату</p>
+                <div class="font-bold text-plum-ink text-sm">📱 Вбудований Mini App інтерфейс</div>
+                <p class="text-xs text-plum-muted mt-0.5">Повноцінний графічний вебдодаток усередині чату</p>
               </div>
             </label>
 
-            <label class="cursor-pointer p-4 rounded-2xl bg-cream-card border-2 border-cream-border hover:border-amber-500 shadow-sm flex items-start gap-3 transition-all">
-              <input type="checkbox" data-hours="6" data-tech="APScheduler / Cron" onchange="updateBotBuilder()" class="mt-1 w-4 h-4 accent-amber-600">
+            <label class="cursor-pointer p-4 rounded-2xl bg-lav-card border-2 border-lav-border hover:border-plum-main shadow-sm flex items-start gap-3 transition-all">
+              <input type="checkbox" data-hours="6" data-tech="APScheduler / Cron" onchange="updateBotBuilder()" class="mt-1 w-4 h-4 accent-purple-600">
               <div>
-                <div class="font-bold text-brand-ink text-sm">⏰ Автоматичні нагадування</div>
-                <p class="text-xs text-brand-muted mt-0.5">Розсилка розкладу пар, дедлайнів та новин</p>
+                <div class="font-bold text-plum-ink text-sm">⏰ Автоматичні нагадування</div>
+                <p class="text-xs text-plum-muted mt-0.5">Розсилка розкладу пар, дедлайнів та новин</p>
               </div>
             </label>
 
-            <label class="cursor-pointer p-4 rounded-2xl bg-cream-card border-2 border-cream-border hover:border-brand-coral shadow-sm flex items-start gap-3 transition-all">
-              <input type="checkbox" data-hours="8" data-tech="LiqPay / Telegram Payments" onchange="updateBotBuilder()" class="mt-1 w-4 h-4 accent-orange-600">
+            <label class="cursor-pointer p-4 rounded-2xl bg-lav-card border-2 border-lav-border hover:border-plum-orchid shadow-sm flex items-start gap-3 transition-all">
+              <input type="checkbox" data-hours="8" data-tech="LiqPay / Telegram Payments" onchange="updateBotBuilder()" class="mt-1 w-4 h-4 accent-fuchsia-600">
               <div>
-                <div class="font-bold text-brand-ink text-sm">💳 Прийом онлайн-оплат</div>
-                <p class="text-xs text-brand-muted mt-0.5">Миттєва оплата карткою в один клік</p>
+                <div class="font-bold text-plum-ink text-sm">💳 Прийом онлайн-оплат</div>
+                <p class="text-xs text-plum-muted mt-0.5">Миттєва оплата карткою в один клік</p>
               </div>
             </label>
           </div>
 
           <!-- Результат конструктора -->
-          <div class="lg:col-span-5 p-6 sm:p-7 rounded-3xl bg-gradient-to-br from-brand-teal via-teal-800 to-stone-900 text-white shadow-xl flex flex-col justify-between">
+          <div class="lg:col-span-5 p-6 sm:p-7 rounded-3xl bg-gradient-to-br from-plum-deep via-plum-main to-fuchsia-700 text-white shadow-xl flex flex-col justify-between">
             <div>
-              <div class="text-xs uppercase tracking-wider font-bold text-teal-200 mb-1">Параметри вашого проєкту</div>
+              <div class="text-xs uppercase tracking-wider font-bold text-purple-200 mb-1">Параметри вашого проєкту</div>
               <h3 class="text-2xl font-extrabold mb-4" id="builder-title">Базовий бот-помічник</h3>
 
               <div class="space-y-3 text-sm bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/15">
                 <div class="flex justify-between">
-                  <span class="text-teal-100">Орієнтовний час розробки:</span>
-                  <span class="font-extrabold text-amber-300" id="builder-hours">4 год.</span>
+                  <span class="text-purple-100">Орієнтовний час розробки:</span>
+                  <span class="font-extrabold text-fuchsia-200" id="builder-hours">4 год.</span>
                 </div>
                 <div class="flex justify-between">
-                  <span class="text-teal-100">Рівень складності:</span>
+                  <span class="text-purple-100">Рівень складності:</span>
                   <span class="font-extrabold" id="builder-level">Початковий (Junior)</span>
                 </div>
                 <div class="pt-2 border-t border-white/15">
-                  <div class="text-teal-100 text-xs mb-1.5">Рекомендований стек:</div>
+                  <div class="text-purple-100 text-xs mb-1.5">Рекомендований стек:</div>
                   <div class="flex flex-wrap gap-1.5" id="builder-stack">
                     <span class="px-2.5 py-1 rounded-lg bg-white/20 text-xs font-mono font-semibold">Python</span>
                     <span class="px-2.5 py-1 rounded-lg bg-white/20 text-xs font-mono font-semibold">aiogram 3</span>
@@ -322,7 +322,7 @@
               </div>
             </div>
 
-            <button onclick="navigateTo('demo')" class="mt-6 w-full py-3.5 rounded-2xl bg-brand-coral hover:bg-orange-500 text-white font-extrabold text-sm shadow-lg transition-all">
+            <button onclick="navigateTo('demo')" class="mt-6 w-full py-3.5 rounded-2xl bg-white text-plum-deep hover:bg-purple-50 font-extrabold text-sm shadow-lg transition-all">
               Протестувати схожого бота в дії →
             </button>
           </div>
@@ -334,92 +334,92 @@
     <section id="page-types" class="page-section">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
         <div class="mb-8">
-          <span class="px-3.5 py-1 rounded-full bg-teal-100 text-brand-teal text-xs font-bold">Практичне застосування</span>
-          <h1 class="text-3xl sm:text-4xl font-extrabold text-brand-ink mt-2 mb-3">Види ботів та користь для освіти й бізнесу</h1>
-          <p class="text-brand-muted max-w-2xl text-sm sm:text-base">Натисніть на категорію, щоб відфільтрувати напрями використання чат-ботів:</p>
+          <span class="px-3.5 py-1 rounded-full bg-purple-100 text-plum-main text-xs font-bold">Практичне застосування</span>
+          <h1 class="text-3xl sm:text-4xl font-extrabold text-plum-ink mt-2 mb-3">Види ботів та користь для освіти й бізнесу</h1>
+          <p class="text-plum-muted max-w-2xl text-sm sm:text-base">Натисніть на категорію, щоб відфільтрувати напрями використання чат-ботів:</p>
         </div>
 
         <!-- Фільтр -->
         <div class="flex flex-wrap gap-2 mb-8">
-          <button onclick="filterBots('all', this)" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-gradient-to-r from-brand-teal to-brand-coral text-white shadow-md transition-all">Усі напрями (6)</button>
-          <button onclick="filterBots('edu', this)" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-cream-card text-brand-ink border border-cream-border hover:border-brand-teal transition-all">🎓 Освіта та ВНТУ</button>
-          <button onclick="filterBots('ai', this)" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-cream-card text-brand-ink border border-cream-border hover:border-brand-indigo transition-all">🤖 Штучний інтелект</button>
-          <button onclick="filterBots('business', this)" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-cream-card text-brand-ink border border-cream-border hover:border-brand-coral transition-all">🛍️ Бізнес та Mini Apps</button>
+          <button onclick="filterBots('all', this)" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-gradient-to-r from-plum-main to-plum-orchid text-white shadow-md transition-all">Усі напрями (6)</button>
+          <button onclick="filterBots('edu', this)" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-lav-card text-plum-ink border border-lav-border hover:border-plum-main transition-all">🎓 Освіта та ВНТУ</button>
+          <button onclick="filterBots('ai', this)" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-lav-card text-plum-ink border border-lav-border hover:border-plum-indigo transition-all">🤖 Штучний інтелект</button>
+          <button onclick="filterBots('business', this)" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-lav-card text-plum-ink border border-lav-border hover:border-plum-orchid transition-all">🛍️ Бізнес та Mini Apps</button>
         </div>
 
         <!-- Картки -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-          <div class="bot-card group p-6 rounded-3xl bg-cream-card border border-cream-border hover:border-brand-teal hover:-translate-y-1.5 shadow-sm hover:shadow-xl transition-all" data-category="edu">
-            <div class="w-12 h-12 rounded-2xl bg-teal-100 text-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">🎓</div>
-            <span class="text-[11px] font-bold uppercase tracking-wider text-brand-teal">Для викладачів та студентів</span>
-            <h3 class="text-lg font-extrabold text-brand-ink mt-1 mb-2">Університетський асистент</h3>
-            <p class="text-sm text-brand-muted leading-relaxed">Автоматична видача методичок, шаблонів звітів, розкладу консультацій, нагадування про дедлайни здачі практичних робіт.</p>
+          <div class="bot-card group p-6 rounded-3xl bg-lav-card border border-lav-border hover:border-plum-main hover:-translate-y-1.5 shadow-sm hover:shadow-xl hover:shadow-purple-900/10 transition-all" data-category="edu">
+            <div class="w-12 h-12 rounded-2xl bg-purple-100 text-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">🎓</div>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-plum-main">Для викладачів та студентів</span>
+            <h3 class="text-lg font-extrabold text-plum-ink mt-1 mb-2">Університетський асистент</h3>
+            <p class="text-sm text-plum-muted leading-relaxed">Автоматична видача методичок, шаблонів звітів, розкладу консультацій, нагадування про дедлайни здачі практичних робіт.</p>
           </div>
 
-          <div class="bot-card group p-6 rounded-3xl bg-cream-card border border-cream-border hover:border-brand-amber hover:-translate-y-1.5 shadow-sm hover:shadow-xl transition-all" data-category="edu">
-            <div class="w-12 h-12 rounded-2xl bg-amber-100 text-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">📝</div>
-            <span class="text-[11px] font-bold uppercase tracking-wider text-brand-amber">Автоматизація перевірки</span>
-            <h3 class="text-lg font-extrabold text-brand-ink mt-1 mb-2">Боти для експрес-тестування</h3>
-            <p class="text-sm text-brand-muted leading-relaxed">Проведення бліц-опитувань на парі з миттєвим підрахунком балів та експортом результатів у Google Таблицю.</p>
+          <div class="bot-card group p-6 rounded-3xl bg-lav-card border border-lav-border hover:border-plum-orchid hover:-translate-y-1.5 shadow-sm hover:shadow-xl hover:shadow-purple-900/10 transition-all" data-category="edu">
+            <div class="w-12 h-12 rounded-2xl bg-fuchsia-100 text-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">📝</div>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-plum-orchid">Автоматизація перевірки</span>
+            <h3 class="text-lg font-extrabold text-plum-ink mt-1 mb-2">Боти для експрес-тестування</h3>
+            <p class="text-sm text-plum-muted leading-relaxed">Проведення бліц-опитувань на парі з миттєвим підрахунком балів та експортом результатів у Google Таблицю.</p>
           </div>
 
-          <div class="bot-card group p-6 rounded-3xl bg-cream-card border border-cream-border hover:border-brand-indigo hover:-translate-y-1.5 shadow-sm hover:shadow-xl transition-all" data-category="ai">
+          <div class="bot-card group p-6 rounded-3xl bg-lav-card border border-lav-border hover:border-plum-indigo hover:-translate-y-1.5 shadow-sm hover:shadow-xl hover:shadow-purple-900/10 transition-all" data-category="ai">
             <div class="w-12 h-12 rounded-2xl bg-indigo-100 text-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">🧠</div>
-            <span class="text-[11px] font-bold uppercase tracking-wider text-brand-indigo">Нейромережі в чаті</span>
-            <h3 class="text-lg font-extrabold text-brand-ink mt-1 mb-2">AI-репетитори та перекладачі</h3>
-            <p class="text-sm text-brand-muted leading-relaxed">Підключення мовних моделей (GPT, Gemini) для перевірки англійської граматики, пояснення складних тем та конспектування.</p>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-plum-indigo">Нейромережі в чаті</span>
+            <h3 class="text-lg font-extrabold text-plum-ink mt-1 mb-2">AI-репетитори та перекладачі</h3>
+            <p class="text-sm text-plum-muted leading-relaxed">Підключення мовних моделей (GPT, Gemini) для перевірки англійської граматики, пояснення складних тем та конспектування.</p>
           </div>
 
-          <div class="bot-card group p-6 rounded-3xl bg-cream-card border border-cream-border hover:border-brand-coral hover:-translate-y-1.5 shadow-sm hover:shadow-xl transition-all" data-category="business">
-            <div class="w-12 h-12 rounded-2xl bg-orange-100 text-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">🛍️</div>
-            <span class="text-[11px] font-bold uppercase tracking-wider text-brand-coral">Електронна комерція</span>
-            <h3 class="text-lg font-extrabold text-brand-ink mt-1 mb-2">Боти-магазини та сервіси</h3>
-            <p class="text-sm text-brand-muted leading-relaxed">Каталог товарів із фото, кошик замовлень, вибір відділення доставки та оплата прямо всередині месенджера.</p>
+          <div class="bot-card group p-6 rounded-3xl bg-lav-card border border-lav-border hover:border-plum-main hover:-translate-y-1.5 shadow-sm hover:shadow-xl hover:shadow-purple-900/10 transition-all" data-category="business">
+            <div class="w-12 h-12 rounded-2xl bg-violet-100 text-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">🛍️</div>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-plum-main">Електронна комерція</span>
+            <h3 class="text-lg font-extrabold text-plum-ink mt-1 mb-2">Боти-магазини та сервіси</h3>
+            <p class="text-sm text-plum-muted leading-relaxed">Каталог товарів із фото, кошик замовлень, вибір відділення доставки та оплата прямо всередині месенджера.</p>
           </div>
 
-          <div class="bot-card group p-6 rounded-3xl bg-cream-card border border-cream-border hover:border-brand-teal hover:-translate-y-1.5 shadow-sm hover:shadow-xl transition-all" data-category="business">
-            <div class="w-12 h-12 rounded-2xl bg-teal-100 text-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">📱</div>
-            <span class="text-[11px] font-bold uppercase tracking-wider text-brand-teal">Web Apps</span>
-            <h3 class="text-lg font-extrabold text-brand-ink mt-1 mb-2">Telegram Mini Apps</h3>
-            <p class="text-sm text-brand-muted leading-relaxed">Повноцінні вебдодатки на HTML/JS, що відкриваються поверх чату: інтерактивні тренажери, календарі запису та мініігри.</p>
+          <div class="bot-card group p-6 rounded-3xl bg-lav-card border border-lav-border hover:border-plum-orchid hover:-translate-y-1.5 shadow-sm hover:shadow-xl hover:shadow-purple-900/10 transition-all" data-category="business">
+            <div class="w-12 h-12 rounded-2xl bg-fuchsia-100 text-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">📱</div>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-plum-orchid">Web Apps</span>
+            <h3 class="text-lg font-extrabold text-plum-ink mt-1 mb-2">Telegram Mini Apps</h3>
+            <p class="text-sm text-plum-muted leading-relaxed">Повноцінні вебдодатки на HTML/JS, що відкриваються поверх чату: інтерактивні тренажери, календарі запису та мініігри.</p>
           </div>
 
-          <div class="bot-card group p-6 rounded-3xl bg-cream-card border border-cream-border hover:border-brand-indigo hover:-translate-y-1.5 shadow-sm hover:shadow-xl transition-all" data-category="ai">
+          <div class="bot-card group p-6 rounded-3xl bg-lav-card border border-lav-border hover:border-plum-indigo hover:-translate-y-1.5 shadow-sm hover:shadow-xl hover:shadow-purple-900/10 transition-all" data-category="ai">
             <div class="w-12 h-12 rounded-2xl bg-indigo-100 text-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">🛡️</div>
-            <span class="text-[11px] font-bold uppercase tracking-wider text-brand-indigo">Безпека спільнот</span>
-            <h3 class="text-lg font-extrabold text-brand-ink mt-1 mb-2">AI-модератори чатів</h3>
-            <p class="text-sm text-brand-muted leading-relaxed">Автоматично блокують спам, перевіряють нових учасників через капчу та підтримують порядок у великих студентських групах.</p>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-plum-indigo">Безпека спільнот</span>
+            <h3 class="text-lg font-extrabold text-plum-ink mt-1 mb-2">AI-модератори чатів</h3>
+            <p class="text-sm text-plum-muted leading-relaxed">Автоматично блокують спам, перевіряють нових учасників через капчу та підтримують порядок у великих студентських групах.</p>
           </div>
         </div>
 
         <!-- ВІДЕО-РОЗДІЛ -->
-        <div class="p-6 sm:p-8 rounded-3xl bg-cream-soft border border-cream-border shadow-md">
+        <div class="p-6 sm:p-8 rounded-3xl bg-lav-soft border border-lav-border shadow-md">
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
             <div>
-              <span class="px-3 py-1 rounded-full bg-orange-100 text-brand-coral text-xs font-bold">🎬 Відеоматеріали</span>
-              <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-ink mt-2">Як створюють та використовують ботів на практиці</h2>
-              <p class="text-sm text-brand-muted mt-1">Оберіть відеоурок для перегляду прямо на сторінці:</p>
+              <span class="px-3 py-1 rounded-full bg-fuchsia-100 text-plum-orchid text-xs font-bold">🎬 Відеоматеріали</span>
+              <h2 class="text-2xl sm:text-3xl font-extrabold text-plum-ink mt-2">Як створюють та використовують ботів на практиці</h2>
+              <p class="text-sm text-plum-muted mt-1">Оберіть відеоурок для перегляду прямо на сторінці:</p>
             </div>
             <div class="flex flex-wrap gap-2">
-              <button onclick="selectVideo(0)" id="vid-btn-0" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-brand-teal text-white shadow-sm transition-all">1. Що таке Bot API</button>
-              <button onclick="selectVideo(1)" id="vid-btn-1" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-cream-card text-brand-ink border border-cream-border transition-all">2. Бот на Python</button>
-              <button onclick="selectVideo(2)" id="vid-btn-2" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-cream-card text-brand-ink border border-cream-border transition-all">3. Mini Apps</button>
+              <button onclick="selectVideo(0)" id="vid-btn-0" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-plum-main text-white shadow-sm transition-all">1. Що таке Bot API</button>
+              <button onclick="selectVideo(1)" id="vid-btn-1" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-lav-card text-plum-ink border border-lav-border transition-all">2. Бот на Python</button>
+              <button onclick="selectVideo(2)" id="vid-btn-2" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-lav-card text-plum-ink border border-lav-border transition-all">3. Mini Apps</button>
             </div>
           </div>
 
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-            <div class="lg:col-span-8 rounded-2xl overflow-hidden bg-stone-900 aspect-video relative shadow-xl border border-cream-border">
+            <div class="lg:col-span-8 rounded-2xl overflow-hidden bg-indigo-950 aspect-video relative shadow-xl border border-lav-border">
               <iframe id="youtube-frame" class="w-full h-full" src="https://www.youtube-nocookie.com/embed/aNmRNjME6mE" title="Telegram Bot Tutorial" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
 
             <div class="lg:col-span-4 space-y-4">
-              <div class="p-5 rounded-2xl bg-cream-card border border-cream-border shadow-sm space-y-3">
-                <span id="vid-badge" class="inline-block px-2.5 py-1 rounded-lg bg-teal-100 text-brand-teal text-xs font-bold">Урок №1 • Основи</span>
-                <h3 id="vid-title" class="text-lg font-extrabold text-brand-ink">Як працює Telegram Bot API та @BotFather</h3>
-                <p id="vid-desc" class="text-xs sm:text-sm text-brand-muted leading-relaxed">
+              <div class="p-5 rounded-2xl bg-lav-card border border-lav-border shadow-sm space-y-3">
+                <span id="vid-badge" class="inline-block px-2.5 py-1 rounded-lg bg-purple-100 text-plum-main text-xs font-bold">Урок №1 • Основи</span>
+                <h3 id="vid-title" class="text-lg font-extrabold text-plum-ink">Як працює Telegram Bot API та @BotFather</h3>
+                <p id="vid-desc" class="text-xs sm:text-sm text-plum-muted leading-relaxed">
                   Огляд архітектури взаємодії між користувачем, серверами Telegram та програмним кодом бота. Покрокова реєстрація нового бота.
                 </p>
-                <a id="vid-ext-link" href="https://www.youtube.com/results?search_query=створення+телеграм+бота+python+aiogram" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs font-bold text-brand-coral hover:underline pt-1">
+                <a id="vid-ext-link" href="https://www.youtube.com/results?search_query=створення+телеграм+бота+python+aiogram" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs font-bold text-plum-orchid hover:underline pt-1">
                   <span>▶ Дивитися більше відео на YouTube</span>
                 </a>
               </div>
@@ -433,52 +433,52 @@
     <section id="page-tech" class="page-section">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
         <div class="mb-8">
-          <span class="px-3.5 py-1 rounded-full bg-indigo-100 text-brand-indigo text-xs font-bold">Технології та перевірка знань</span>
-          <h1 class="text-3xl sm:text-4xl font-extrabold text-brand-ink mt-2 mb-3">Приклад коду та інтерактивний міні-тест</h1>
-          <p class="text-brand-muted max-w-2xl text-sm sm:text-base">Ознайомтеся з реальним кодом бота на Python і перевірте свої знання в інтерактивній вікторині нижче!</p>
+          <span class="px-3.5 py-1 rounded-full bg-indigo-100 text-plum-indigo text-xs font-bold">Технології та перевірка знань</span>
+          <h1 class="text-3xl sm:text-4xl font-extrabold text-plum-ink mt-2 mb-3">Приклад коду та інтерактивний міні-тест</h1>
+          <p class="text-plum-muted max-w-2xl text-sm sm:text-base">Ознайомтеся з реальним кодом бота на Python і перевірте свої знання в інтерактивній вікторині нижче!</p>
         </div>
 
         <!-- Блок коду -->
-        <div class="rounded-3xl bg-stone-900 border border-stone-800 overflow-hidden shadow-xl mb-14">
-          <div class="px-5 py-3.5 bg-stone-800 border-b border-stone-700 flex flex-wrap items-center justify-between gap-3">
+        <div class="rounded-3xl bg-[#1E1633] border border-purple-900/40 overflow-hidden shadow-xl mb-14">
+          <div class="px-5 py-3.5 bg-[#2A1F47] border-b border-purple-800/50 flex flex-wrap items-center justify-between gap-3">
             <div class="flex items-center gap-2">
-              <span class="w-3 h-3 rounded-full bg-brand-coral"></span>
-              <span class="w-3 h-3 rounded-full bg-amber-400"></span>
-              <span class="w-3 h-3 rounded-full bg-teal-400"></span>
-              <span class="ml-2 text-xs font-mono text-stone-300">bot_vntu.py</span>
+              <span class="w-3 h-3 rounded-full bg-plum-orchid"></span>
+              <span class="w-3 h-3 rounded-full bg-purple-400"></span>
+              <span class="w-3 h-3 rounded-full bg-indigo-400"></span>
+              <span class="ml-2 text-xs font-mono text-purple-200">bot_vntu.py</span>
             </div>
             <div class="flex items-center gap-2">
-              <button onclick="switchCodeTab('basic')" id="tab-basic" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-brand-teal text-white transition-colors">1. Старт бота</button>
-              <button onclick="switchCodeTab('buttons')" id="tab-buttons" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-stone-700 text-stone-300 hover:text-white transition-colors">2. Кнопки для ВНТУ</button>
-              <button onclick="copyCurrentCode()" id="copy-btn" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-amber-500/20 text-amber-300 hover:bg-amber-500/30 border border-amber-500/40 transition-colors">
+              <button onclick="switchCodeTab('basic')" id="tab-basic" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-plum-main text-white transition-colors">1. Старт бота</button>
+              <button onclick="switchCodeTab('buttons')" id="tab-buttons" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-purple-950/60 text-purple-200 hover:text-white transition-colors">2. Кнопки для ВНТУ</button>
+              <button onclick="copyCurrentCode()" id="copy-btn" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-fuchsia-500/20 text-fuchsia-200 hover:bg-fuchsia-500/30 border border-fuchsia-400/40 transition-colors">
                 Копіювати код
               </button>
             </div>
           </div>
           <div class="p-5 overflow-x-auto">
-            <pre id="code-display" class="font-mono text-xs sm:text-sm text-amber-50 leading-relaxed"></pre>
+            <pre id="code-display" class="font-mono text-xs sm:text-sm text-purple-50 leading-relaxed"></pre>
           </div>
         </div>
 
         <!-- ІНТЕРАКТИВНИЙ КВІЗ -->
-        <div class="p-6 sm:p-8 rounded-3xl bg-cream-card border-2 border-brand-teal/40 shadow-xl">
+        <div class="p-6 sm:p-8 rounded-3xl bg-lav-card border-2 border-plum-main/35 shadow-xl shadow-purple-950/5">
           <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
             <div>
-              <span class="px-3 py-1 rounded-full bg-teal-100 text-brand-teal text-xs font-bold">🎮 Інтерактивна вікторина</span>
-              <h2 class="text-2xl font-extrabold text-brand-ink mt-2">Перевір, наскільки добре ти знаєш Telegram-ботів!</h2>
+              <span class="px-3 py-1 rounded-full bg-purple-100 text-plum-main text-xs font-bold">🎮 Інтерактивна вікторина</span>
+              <h2 class="text-2xl font-extrabold text-plum-ink mt-2">Перевір, наскільки добре ти знаєш Telegram-ботів!</h2>
             </div>
-            <div class="px-4 py-2 rounded-2xl bg-cream-soft border border-cream-border text-sm font-extrabold text-brand-teal">
+            <div class="px-4 py-2 rounded-2xl bg-lav-soft border border-lav-border text-sm font-extrabold text-plum-main">
               Рахунок: <span id="quiz-score">0</span> / <span id="quiz-total">4</span>
             </div>
           </div>
 
           <div id="quiz-container" class="space-y-4">
-            <div class="text-xs font-bold text-brand-muted uppercase" id="quiz-progress">Запитання 1 з 4</div>
-            <h3 class="text-lg sm:text-xl font-bold text-brand-ink" id="quiz-question">Завантаження...</h3>
+            <div class="text-xs font-bold text-plum-muted uppercase" id="quiz-progress">Запитання 1 з 4</div>
+            <h3 class="text-lg sm:text-xl font-bold text-plum-ink" id="quiz-question">Завантаження...</h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2" id="quiz-options"></div>
             <div id="quiz-feedback" class="hidden p-4 rounded-2xl text-sm font-semibold"></div>
             <div class="pt-2 flex justify-end">
-              <button id="quiz-next-btn" onclick="nextQuizQuestion()" class="hidden px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-teal to-brand-coral text-white font-bold text-sm shadow-md">
+              <button id="quiz-next-btn" onclick="nextQuizQuestion()" class="hidden px-5 py-2.5 rounded-xl bg-gradient-to-r from-plum-main to-plum-orchid text-white font-bold text-sm shadow-md">
                 Наступне запитання →
               </button>
             </div>
@@ -491,46 +491,46 @@
     <section id="page-demo" class="page-section">
       <div class="max-w-5xl mx-auto px-4 sm:px-6 py-10">
         <div class="text-center mb-8">
-          <span class="px-3.5 py-1 rounded-full bg-orange-100 text-brand-coral text-xs font-bold">Живий симулятор</span>
-          <h1 class="text-3xl font-extrabold text-brand-ink mt-2 mb-1">Протестуйте Telegram-бота прямо зараз</h1>
-          <p class="text-sm text-brand-muted">Натискайте кнопки внизу або протестуйте режим помічника для викладача ВНТУ!</p>
+          <span class="px-3.5 py-1 rounded-full bg-fuchsia-100 text-plum-orchid text-xs font-bold">Живий симулятор</span>
+          <h1 class="text-3xl font-extrabold text-plum-ink mt-2 mb-1">Протестуйте Telegram-бота прямо зараз</h1>
+          <p class="text-sm text-plum-muted">Натискайте кнопки внизу або протестуйте режим помічника для викладача ВНТУ!</p>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
           <!-- Картка бота -->
-          <div class="p-6 rounded-3xl bg-cream-card border border-cream-border shadow-lg space-y-4">
+          <div class="p-6 rounded-3xl bg-lav-card border border-lav-border shadow-lg space-y-4">
             <div class="flex items-center gap-3.5">
-              <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-brand-teal to-brand-coral flex items-center justify-center text-2xl shadow-lg text-white">
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-plum-deep via-plum-main to-plum-orchid flex items-center justify-center text-2xl shadow-lg text-white">
                 🤖
               </div>
               <div>
-                <h3 class="font-extrabold text-brand-ink text-lg">VNTU Bot Helper</h3>
-                <p class="text-xs text-brand-teal font-mono font-bold">@VNTU_Helper_Bot</p>
-                <span class="inline-block mt-1 text-[11px] font-bold text-brand-coral">● онлайн • готовий до роботи</span>
+                <h3 class="font-extrabold text-plum-ink text-lg">VNTU Bot Helper</h3>
+                <p class="text-xs text-plum-main font-mono font-bold">@VNTU_Helper_Bot</p>
+                <span class="inline-block mt-1 text-[11px] font-bold text-plum-orchid">● онлайн • готовий до роботи</span>
               </div>
             </div>
 
-            <div class="p-4 rounded-2xl bg-cream-soft border border-cream-border space-y-2 text-xs">
-              <div class="font-bold text-brand-ink">Можливості симулятора:</div>
-              <p class="text-brand-muted leading-relaxed">Демонструє роботу кнопок, швидких відповідей та сценарій використання бота викладачем у ВНТУ.</p>
-              <div class="pt-2 border-t border-cream-border text-brand-muted">
-                Авторка: <strong class="text-brand-ink">Вишневська Дарія (3КН-26б)</strong>
+            <div class="p-4 rounded-2xl bg-lav-soft border border-lav-border space-y-2 text-xs">
+              <div class="font-bold text-plum-ink">Можливості симулятора:</div>
+              <p class="text-plum-muted leading-relaxed">Демонструє роботу кнопок, швидких відповідей та сценарій використання бота викладачем у ВНТУ.</p>
+              <div class="pt-2 border-t border-lav-border text-plum-muted">
+                Авторка: <strong class="text-plum-ink">Вишневська Дарія (3КН-26б)</strong>
               </div>
             </div>
 
-            <button onclick="resetChat()" class="w-full py-2.5 rounded-xl bg-cream-soft hover:bg-cream-border text-xs font-bold text-brand-ink border border-cream-border transition-colors">
+            <button onclick="resetChat()" class="w-full py-2.5 rounded-xl bg-lav-soft hover:bg-lav-border text-xs font-bold text-plum-ink border border-lav-border transition-colors">
               🔄 Очистити історію чату
             </button>
           </div>
 
           <!-- Вікно месенджера -->
-          <div class="lg:col-span-2 rounded-3xl bg-cream-card border border-cream-border overflow-hidden flex flex-col h-[540px] shadow-2xl">
-            <div class="px-5 py-3.5 bg-gradient-to-r from-brand-teal to-teal-700 text-white flex items-center justify-between">
+          <div class="lg:col-span-2 rounded-3xl bg-lav-card border border-lav-border overflow-hidden flex flex-col h-[540px] shadow-2xl shadow-purple-950/10">
+            <div class="px-5 py-3.5 bg-gradient-to-r from-plum-deep via-plum-main to-purple-600 text-white flex items-center justify-between">
               <div class="flex items-center gap-3">
                 <div class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center font-extrabold text-sm">VB</div>
                 <div>
                   <div class="text-sm font-bold leading-tight">VNTU Bot Helper</div>
-                  <div class="text-[11px] text-teal-100" id="bot-status">бот активний</div>
+                  <div class="text-[11px] text-purple-100" id="bot-status">бот активний</div>
                 </div>
               </div>
               <span class="px-2.5 py-1 rounded-lg bg-white/15 text-[11px] font-mono">Interactive API</span>
@@ -538,26 +538,26 @@
 
             <div id="chat-messages" class="flex-grow p-4 sm:p-5 overflow-y-auto space-y-3 chat-pattern">
               <div class="flex items-start gap-2.5 max-w-[85%] msg-pop">
-                <div class="p-3.5 rounded-2xl rounded-tl-sm bg-cream-card border border-cream-border text-sm text-brand-ink shadow-sm">
+                <div class="p-3.5 rounded-2xl rounded-tl-sm bg-lav-card border border-lav-border text-sm text-plum-ink shadow-sm">
                   <p>Привіт! 👋 Я інтерактивний бот <strong>@VNTU_Helper_Bot</strong>.</p>
                   <p class="mt-1.5">Натисніть кнопку <strong>«🎓 Для викладача ВНТУ»</strong> внизу, щоб побачити, як бот допомагає в навчальному процесі!</p>
-                  <div class="text-[10px] text-brand-muted text-right mt-1">12:00</div>
+                  <div class="text-[10px] text-plum-muted text-right mt-1">12:00</div>
                 </div>
               </div>
             </div>
 
             <!-- Швидкі кнопки -->
-            <div class="px-3 py-2.5 bg-cream-card border-t border-cream-border flex flex-wrap gap-1.5">
-              <button onclick="sendQuickCommand('🎓 Для викладача ВНТУ')" class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-brand-teal to-brand-coral text-white text-xs font-bold shadow-sm hover:opacity-90 transition-all">🎓 Для викладача ВНТУ</button>
-              <button onclick="sendQuickCommand('/start')" class="px-3 py-1.5 rounded-xl bg-cream-soft hover:bg-brand-teal hover:text-white text-xs font-bold text-brand-ink border border-cream-border transition-colors">/start</button>
-              <button onclick="sendQuickCommand('📚 Що таке Bot API?')" class="px-3 py-1.5 rounded-xl bg-cream-soft hover:bg-brand-teal hover:text-white text-xs font-bold text-brand-ink border border-cream-border transition-colors">📚 Що таке Bot API?</button>
-              <button onclick="sendQuickCommand('💻 На чому пишуть ботів?')" class="px-3 py-1.5 rounded-xl bg-cream-soft hover:bg-brand-teal hover:text-white text-xs font-bold text-brand-ink border border-cream-border transition-colors">💻 Стек розробки</button>
-              <button onclick="sendQuickCommand('👩‍💻 Хто автор?')" class="px-3 py-1.5 rounded-xl bg-cream-soft hover:bg-brand-teal hover:text-white text-xs font-bold text-brand-ink border border-cream-border transition-colors">👩‍💻 Хто автор?</button>
+            <div class="px-3 py-2.5 bg-lav-card border-t border-lav-border flex flex-wrap gap-1.5">
+              <button onclick="sendQuickCommand('🎓 Для викладача ВНТУ')" class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-plum-main to-plum-orchid text-white text-xs font-bold shadow-sm hover:opacity-90 transition-all">🎓 Для викладача ВНТУ</button>
+              <button onclick="sendQuickCommand('/start')" class="px-3 py-1.5 rounded-xl bg-lav-soft hover:bg-plum-main hover:text-white text-xs font-bold text-plum-ink border border-lav-border transition-colors">/start</button>
+              <button onclick="sendQuickCommand('📚 Що таке Bot API?')" class="px-3 py-1.5 rounded-xl bg-lav-soft hover:bg-plum-main hover:text-white text-xs font-bold text-plum-ink border border-lav-border transition-colors">📚 Що таке Bot API?</button>
+              <button onclick="sendQuickCommand('💻 На чому пишуть ботів?')" class="px-3 py-1.5 rounded-xl bg-lav-soft hover:bg-plum-main hover:text-white text-xs font-bold text-plum-ink border border-lav-border transition-colors">💻 Стек розробки</button>
+              <button onclick="sendQuickCommand('👩‍💻 Хто автор?')" class="px-3 py-1.5 rounded-xl bg-lav-soft hover:bg-plum-main hover:text-white text-xs font-bold text-plum-ink border border-lav-border transition-colors">👩‍💻 Хто автор?</button>
             </div>
 
-            <form onsubmit="handleChatSubmit(event)" class="p-3 bg-cream-card border-t border-cream-border flex items-center gap-2">
-              <input type="text" id="chat-input" placeholder="Напишіть повідомлення боту..." autocomplete="off" class="flex-grow px-4 py-2.5 rounded-xl bg-cream-soft border border-cream-border focus:border-brand-teal text-sm text-brand-ink placeholder-brand-muted focus:outline-none">
-              <button type="submit" class="p-2.5 rounded-xl bg-brand-coral hover:bg-orange-500 text-white shadow-md transition-colors shrink-0">
+            <form onsubmit="handleChatSubmit(event)" class="p-3 bg-lav-card border-t border-lav-border flex items-center gap-2">
+              <input type="text" id="chat-input" placeholder="Напишіть повідомлення боту..." autocomplete="off" class="flex-grow px-4 py-2.5 rounded-xl bg-lav-soft border border-lav-border focus:border-plum-main text-sm text-plum-ink placeholder-plum-muted focus:outline-none">
+              <button type="submit" class="p-2.5 rounded-xl bg-plum-main hover:bg-plum-deep text-white shadow-md transition-colors shrink-0">
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
               </button>
             </form>
@@ -572,78 +572,78 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           <div class="space-y-6">
             <div>
-              <span class="px-3.5 py-1 rounded-full bg-teal-100 text-brand-teal text-xs font-bold">Паспорт практичної роботи</span>
-              <h1 class="text-3xl sm:text-4xl font-extrabold text-brand-ink mt-2 mb-3">Про проєкт BotDev.ua</h1>
-              <p class="text-sm sm:text-base text-brand-muted leading-relaxed">
-                Інтерактивний багатосторінковий вебсайт розроблено в межах практичної роботи №2 з дисципліни <strong class="text-brand-ink">«Вступ до фаху»</strong> з використанням інструментів штучного інтелекту.
+              <span class="px-3.5 py-1 rounded-full bg-purple-100 text-plum-main text-xs font-bold">Паспорт практичної роботи</span>
+              <h1 class="text-3xl sm:text-4xl font-extrabold text-plum-ink mt-2 mb-3">Про проєкт BotDev.ua</h1>
+              <p class="text-sm sm:text-base text-plum-muted leading-relaxed">
+                Інтерактивний багатосторінковий вебсайт розроблено в межах практичної роботи №2 з дисципліни <strong class="text-plum-ink">«Вступ до фаху»</strong> з використанням інструментів штучного інтелекту.
               </p>
             </div>
 
-            <div class="p-6 rounded-3xl bg-cream-card border border-cream-border shadow-sm space-y-4">
-              <h3 class="font-extrabold text-brand-ink text-lg border-b border-cream-border pb-3">Відомості про виконання</h3>
+            <div class="p-6 rounded-3xl bg-lav-card border border-lav-border shadow-sm space-y-4">
+              <h3 class="font-extrabold text-plum-ink text-lg border-b border-lav-border pb-3">Відомості про виконання</h3>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                 <div>
-                  <div class="text-xs text-brand-muted">Університет:</div>
-                  <div class="font-bold text-brand-ink">Вінницький національний технічний університет</div>
+                  <div class="text-xs text-plum-muted">Університет:</div>
+                  <div class="font-bold text-plum-ink">Вінницький національний технічний університет</div>
                 </div>
                 <div>
-                  <div class="text-xs text-brand-muted">Факультет і кафедра:</div>
-                  <div class="font-bold text-brand-ink">ФІІТА, Кафедра комп'ютерних наук</div>
+                  <div class="text-xs text-plum-muted">Факультет і кафедра:</div>
+                  <div class="font-bold text-plum-ink">ФІІТА, Кафедра комп'ютерних наук</div>
                 </div>
                 <div>
-                  <div class="text-xs text-brand-muted">Виконала студентка:</div>
-                  <div class="font-extrabold text-brand-teal">Вишневська Дарія (група 3КН-26б)</div>
+                  <div class="text-xs text-plum-muted">Виконала студентка:</div>
+                  <div class="font-extrabold text-plum-main">Вишневська Дарія (група 3КН-26б)</div>
                 </div>
                 <div>
-                  <div class="text-xs text-brand-muted">Тема роботи:</div>
-                  <div class="font-bold text-brand-ink">«Розробка та можливості Telegram-ботів»</div>
+                  <div class="text-xs text-plum-muted">Тема роботи:</div>
+                  <div class="font-bold text-plum-ink">«Розробка та можливості Telegram-ботів»</div>
                 </div>
               </div>
             </div>
 
             <!-- Блок джерел інформації -->
-            <div class="p-6 rounded-3xl bg-cream-card border border-cream-border shadow-sm space-y-3">
-              <h3 class="font-extrabold text-brand-ink text-base">📚 Інформацію було взято (джерела):</h3>
-              <ul class="space-y-2 text-xs sm:text-sm text-brand-muted">
+            <div class="p-6 rounded-3xl bg-lav-card border border-lav-border shadow-sm space-y-3">
+              <h3 class="font-extrabold text-plum-ink text-base">📚 Інформацію було взято (джерела):</h3>
+              <ul class="space-y-2 text-xs sm:text-sm text-plum-muted">
                 <li class="flex items-start gap-2">
-                  <span class="text-brand-teal font-bold">•</span>
-                  <span>Офіційна документація <a href="https://core.telegram.org/bots/api" target="_blank" rel="noopener noreferrer" class="text-brand-teal font-bold hover:underline">Telegram Bot API (core.telegram.org/bots/api)</a></span>
+                  <span class="text-plum-main font-bold">•</span>
+                  <span>Офіційна документація <a href="https://core.telegram.org/bots/api" target="_blank" rel="noopener noreferrer" class="text-plum-main font-bold hover:underline">Telegram Bot API (core.telegram.org/bots/api)</a></span>
                 </li>
                 <li class="flex items-start gap-2">
-                  <span class="text-brand-coral font-bold">•</span>
-                  <span>Документація <a href="https://core.telegram.org/bots/webapps" target="_blank" rel="noopener noreferrer" class="text-brand-coral font-bold hover:underline">Telegram Mini Apps / Web Apps</a></span>
+                  <span class="text-plum-orchid font-bold">•</span>
+                  <span>Документація <a href="https://core.telegram.org/bots/webapps" target="_blank" rel="noopener noreferrer" class="text-plum-orchid font-bold hover:underline">Telegram Mini Apps / Web Apps</a></span>
                 </li>
                 <li class="flex items-start gap-2">
-                  <span class="text-brand-indigo font-bold">•</span>
-                  <span>Документація фреймворку <a href="https://docs.aiogram.dev/" target="_blank" rel="noopener noreferrer" class="text-brand-indigo font-bold hover:underline">aiogram 3 (docs.aiogram.dev)</a> та <a href="https://telegraf.js.org/" target="_blank" rel="noopener noreferrer" class="text-brand-indigo font-bold hover:underline">Telegraf.js</a></span>
+                  <span class="text-plum-indigo font-bold">•</span>
+                  <span>Документація фреймворку <a href="https://docs.aiogram.dev/" target="_blank" rel="noopener noreferrer" class="text-plum-indigo font-bold hover:underline">aiogram 3 (docs.aiogram.dev)</a> та <a href="https://telegraf.js.org/" target="_blank" rel="noopener noreferrer" class="text-plum-indigo font-bold hover:underline">Telegraf.js</a></span>
                 </li>
                 <li class="flex items-start gap-2">
-                  <span class="text-brand-amber font-bold">•</span>
-                  <span>Статистика та аналітика IT-ринку України на порталі <a href="https://jobs.dou.ua/" target="_blank" rel="noopener noreferrer" class="text-brand-amber font-bold hover:underline">DOU.ua</a></span>
+                  <span class="text-plum-deep font-bold">•</span>
+                  <span>Статистика та аналітика IT-ринку України на порталі <a href="https://jobs.dou.ua/" target="_blank" rel="noopener noreferrer" class="text-plum-deep font-bold hover:underline">DOU.ua</a></span>
                 </li>
               </ul>
             </div>
           </div>
 
           <!-- Форма зворотного зв'язку -->
-          <div class="p-6 sm:p-8 rounded-3xl bg-cream-card border border-cream-border shadow-lg">
-            <h2 class="text-2xl font-extrabold text-brand-ink mb-2">Запропонувати ідею бота</h2>
-            <p class="text-sm text-brand-muted mb-6">Маєте ідею корисного бота для університету чи навчання? Напишіть нам:</p>
+          <div class="p-6 sm:p-8 rounded-3xl bg-lav-card border border-lav-border shadow-lg">
+            <h2 class="text-2xl font-extrabold text-plum-ink mb-2">Запропонувати ідею бота</h2>
+            <p class="text-sm text-plum-muted mb-6">Маєте ідею корисного бота для університету чи навчання? Напишіть нам:</p>
 
             <form onsubmit="handleContactSubmit(event)" class="space-y-4">
               <div>
-                <label class="block text-xs font-bold text-brand-ink mb-1.5">Ваше ім'я</label>
-                <input type="text" required placeholder="Наприклад: Олена" class="w-full px-4 py-3 rounded-xl bg-cream-soft border border-cream-border text-sm focus:outline-none focus:border-brand-teal">
+                <label class="block text-xs font-bold text-plum-ink mb-1.5">Ваше ім'я</label>
+                <input type="text" required placeholder="Наприклад: Олена" class="w-full px-4 py-3 rounded-xl bg-lav-soft border border-lav-border text-sm focus:outline-none focus:border-plum-main">
               </div>
 
               <div>
-                <label class="block text-xs font-bold text-brand-ink mb-1.5">Ваш Telegram або Email</label>
-                <input type="text" required placeholder="@username або email@vntu.edu.ua" class="w-full px-4 py-3 rounded-xl bg-cream-soft border border-cream-border text-sm focus:outline-none focus:border-brand-teal">
+                <label class="block text-xs font-bold text-plum-ink mb-1.5">Ваш Telegram або Email</label>
+                <input type="text" required placeholder="@username або email@vntu.edu.ua" class="w-full px-4 py-3 rounded-xl bg-lav-soft border border-lav-border text-sm focus:outline-none focus:border-plum-main">
               </div>
 
               <div>
-                <label class="block text-xs font-bold text-brand-ink mb-1.5">Напрям бота</label>
-                <select class="w-full px-4 py-3 rounded-xl bg-cream-soft border border-cream-border text-sm focus:outline-none focus:border-brand-teal">
+                <label class="block text-xs font-bold text-plum-ink mb-1.5">Напрям бота</label>
+                <select class="w-full px-4 py-3 rounded-xl bg-lav-soft border border-lav-border text-sm focus:outline-none focus:border-plum-main">
                   <option>Бот-помічник для викладача / кафедри</option>
                   <option>Бот для тестування студентів</option>
                   <option>AI-асистент на базі нейромереж</option>
@@ -652,16 +652,16 @@
               </div>
 
               <div>
-                <label class="block text-xs font-bold text-brand-ink mb-1.5">Опис ідеї</label>
-                <textarea rows="3" placeholder="Які функції має виконувати бот?" class="w-full px-4 py-3 rounded-xl bg-cream-soft border border-cream-border text-sm focus:outline-none focus:border-brand-teal"></textarea>
+                <label class="block text-xs font-bold text-plum-ink mb-1.5">Опис ідеї</label>
+                <textarea rows="3" placeholder="Які функції має виконувати бот?" class="w-full px-4 py-3 rounded-xl bg-lav-soft border border-lav-border text-sm focus:outline-none focus:border-plum-main"></textarea>
               </div>
 
-              <button type="submit" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-brand-teal to-brand-coral hover:opacity-95 text-white font-bold text-sm shadow-lg transition-all">
+              <button type="submit" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-plum-deep via-plum-main to-plum-orchid hover:opacity-95 text-white font-bold text-sm shadow-lg shadow-purple-700/20 transition-all">
                 Відправити ідею 🚀
               </button>
             </form>
 
-            <div id="form-success" class="hidden mt-4 p-4 rounded-2xl bg-teal-50 border border-teal-200 text-brand-teal text-sm font-bold">
+            <div id="form-success" class="hidden mt-4 p-4 rounded-2xl bg-purple-50 border border-purple-200 text-plum-deep text-sm font-bold">
               ✅ Дякуємо! Вашу заявку успішно надіслано.
             </div>
           </div>
@@ -672,29 +672,29 @@
   </main>
 
   <!-- Футер з авторством та джерелами -->
-  <footer class="bg-cream-card border-t border-cream-border mt-auto">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-6 flex flex-col gap-3 text-xs text-brand-muted">
+  <footer class="bg-lav-card border-t border-lav-border mt-auto">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-6 flex flex-col gap-3 text-xs text-plum-muted">
       <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
         <div class="flex items-center gap-2">
-          <span class="font-extrabold text-brand-ink">BotDev.ua</span>
+          <span class="font-extrabold text-plum-ink">BotDev.ua</span>
           <span>•</span>
           <span>Практична робота №2 з дисципліни «Вступ до фаху»</span>
         </div>
         <div class="text-center sm:text-right">
-          Виконала студентка ВНТУ групи <strong class="text-brand-teal">3КН-26б</strong> — <strong class="text-brand-ink">Вишневська Дарія</strong>
+          Виконала студентка ВНТУ групи <strong class="text-plum-main">3КН-26б</strong> — <strong class="text-plum-ink">Вишневська Дарія</strong>
         </div>
       </div>
-      <div class="pt-3 border-t border-cream-border flex flex-wrap items-center justify-center sm:justify-start gap-x-3 gap-y-1 text-[11px]">
-        <span class="font-bold text-brand-ink">Джерела інформації:</span>
-        <a href="https://core.telegram.org/bots/api" target="_blank" rel="noopener noreferrer" class="text-brand-teal font-semibold hover:underline">Telegram Bot API</a>
+      <div class="pt-3 border-t border-lav-border flex flex-wrap items-center justify-center sm:justify-start gap-x-3 gap-y-1 text-[11px]">
+        <span class="font-bold text-plum-ink">Джерела інформації:</span>
+        <a href="https://core.telegram.org/bots/api" target="_blank" rel="noopener noreferrer" class="text-plum-main font-semibold hover:underline">Telegram Bot API</a>
         <span>•</span>
-        <a href="https://core.telegram.org/bots/webapps" target="_blank" rel="noopener noreferrer" class="text-brand-coral font-semibold hover:underline">Telegram Mini Apps</a>
+        <a href="https://core.telegram.org/bots/webapps" target="_blank" rel="noopener noreferrer" class="text-plum-orchid font-semibold hover:underline">Telegram Mini Apps</a>
         <span>•</span>
-        <a href="https://docs.aiogram.dev/" target="_blank" rel="noopener noreferrer" class="text-brand-indigo font-semibold hover:underline">aiogram 3</a>
+        <a href="https://docs.aiogram.dev/" target="_blank" rel="noopener noreferrer" class="text-plum-indigo font-semibold hover:underline">aiogram 3</a>
         <span>•</span>
-        <a href="https://telegraf.js.org/" target="_blank" rel="noopener noreferrer" class="text-brand-teal font-semibold hover:underline">Telegraf.js</a>
+        <a href="https://telegraf.js.org/" target="_blank" rel="noopener noreferrer" class="text-plum-main font-semibold hover:underline">Telegraf.js</a>
         <span>•</span>
-        <a href="https://jobs.dou.ua/" target="_blank" rel="noopener noreferrer" class="text-brand-amber font-semibold hover:underline">DOU.ua</a>
+        <a href="https://jobs.dou.ua/" target="_blank" rel="noopener noreferrer" class="text-plum-deep font-semibold hover:underline">DOU.ua</a>
       </div>
     </div>
   </footer>
@@ -711,17 +711,17 @@
 
       document.querySelectorAll('.nav-btn').forEach(btn => {
         if (btn.dataset.page === pageId) {
-          btn.className = 'nav-btn px-3.5 py-2 rounded-xl text-sm font-bold bg-gradient-to-r from-brand-teal to-brand-coral text-white shadow-md transition-all flex items-center gap-1.5';
+          btn.className = 'nav-btn px-3.5 py-2 rounded-xl text-sm font-bold bg-gradient-to-r from-plum-main to-plum-orchid text-white shadow-md transition-all flex items-center gap-1.5';
         } else {
-          btn.className = 'nav-btn px-3.5 py-2 rounded-xl text-sm font-bold text-brand-ink hover:bg-cream-soft transition-all flex items-center gap-1.5';
+          btn.className = 'nav-btn px-3.5 py-2 rounded-xl text-sm font-bold text-plum-ink hover:bg-lav-soft transition-all flex items-center gap-1.5';
         }
       });
 
       document.querySelectorAll('.mobile-nav-btn').forEach(btn => {
         if (btn.dataset.page === pageId) {
-          btn.className = 'mobile-nav-btn block w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-bold bg-brand-teal text-white';
+          btn.className = 'mobile-nav-btn block w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-bold bg-plum-main text-white';
         } else {
-          btn.className = 'mobile-nav-btn block w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-bold text-brand-ink';
+          btn.className = 'mobile-nav-btn block w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-bold text-plum-ink';
         }
       });
 
@@ -762,11 +762,11 @@
         if (cb.checked) {
           totalHours += parseInt(cb.dataset.hours, 10);
           stack.push(cb.dataset.tech);
-          card.classList.add('border-brand-teal', 'bg-teal-50/40');
-          card.classList.remove('border-cream-border');
+          card.classList.add('border-plum-main', 'bg-purple-50/60');
+          card.classList.remove('border-lav-border');
         } else {
-          card.classList.remove('border-brand-teal', 'bg-teal-50/40');
-          card.classList.add('border-cream-border');
+          card.classList.remove('border-plum-main', 'bg-purple-50/60');
+          card.classList.add('border-lav-border');
         }
       });
 
@@ -795,9 +795,9 @@
     // Фільтрація карток
     function filterBots(category, btnEl) {
       document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.className = 'filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-cream-card text-brand-ink border border-cream-border hover:border-brand-teal transition-all';
+        btn.className = 'filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-lav-card text-plum-ink border border-lav-border hover:border-plum-main transition-all';
       });
-      btnEl.className = 'filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-gradient-to-r from-brand-teal to-brand-coral text-white shadow-md transition-all';
+      btnEl.className = 'filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-gradient-to-r from-plum-main to-plum-orchid text-white shadow-md transition-all';
 
       document.querySelectorAll('.bot-card').forEach(card => {
         card.style.display = (category === 'all' || card.dataset.category === category) ? 'block' : 'none';
@@ -840,9 +840,9 @@
       [0, 1, 2].forEach(i => {
         const b = document.getElementById('vid-btn-' + i);
         if (i === idx) {
-          b.className = 'px-3.5 py-2 rounded-xl text-xs font-bold bg-brand-teal text-white shadow-sm transition-all';
+          b.className = 'px-3.5 py-2 rounded-xl text-xs font-bold bg-plum-main text-white shadow-sm transition-all';
         } else {
-          b.className = 'px-3.5 py-2 rounded-xl text-xs font-bold bg-cream-card text-brand-ink border border-cream-border transition-all';
+          b.className = 'px-3.5 py-2 rounded-xl text-xs font-bold bg-lav-card text-plum-ink border border-lav-border transition-all';
         }
       });
     }
@@ -899,11 +899,11 @@ async def send_template(callback: types.CallbackQuery):
       const b1 = document.getElementById('tab-basic');
       const b2 = document.getElementById('tab-buttons');
       if (key === 'basic') {
-        b1.className = 'px-3 py-1.5 rounded-xl text-xs font-bold bg-brand-teal text-white transition-colors';
-        b2.className = 'px-3 py-1.5 rounded-xl text-xs font-bold bg-stone-700 text-stone-300 hover:text-white transition-colors';
+        b1.className = 'px-3 py-1.5 rounded-xl text-xs font-bold bg-plum-main text-white transition-colors';
+        b2.className = 'px-3 py-1.5 rounded-xl text-xs font-bold bg-purple-950/60 text-purple-200 hover:text-white transition-colors';
       } else {
-        b2.className = 'px-3 py-1.5 rounded-xl text-xs font-bold bg-brand-teal text-white transition-colors';
-        b1.className = 'px-3 py-1.5 rounded-xl text-xs font-bold bg-stone-700 text-stone-300 hover:text-white transition-colors';
+        b2.className = 'px-3 py-1.5 rounded-xl text-xs font-bold bg-plum-main text-white transition-colors';
+        b1.className = 'px-3 py-1.5 rounded-xl text-xs font-bold bg-purple-950/60 text-purple-200 hover:text-white transition-colors';
       }
     }
 
@@ -956,7 +956,7 @@ async def send_template(callback: types.CallbackQuery):
 
       const optsContainer = document.getElementById('quiz-options');
       optsContainer.innerHTML = item.options.map((opt, i) => `
-        <button onclick="checkQuizAnswer(${i}, this)" class="quiz-opt-btn p-4 rounded-2xl text-left text-sm font-bold bg-cream-soft hover:bg-teal-50 border-2 border-cream-border text-brand-ink transition-all">
+        <button onclick="checkQuizAnswer(${i}, this)" class="quiz-opt-btn p-4 rounded-2xl text-left text-sm font-bold bg-lav-soft hover:bg-purple-100/70 border-2 border-lav-border text-plum-ink transition-all">
           ${opt}
         </button>
       `).join('');
@@ -972,18 +972,18 @@ async def send_template(callback: types.CallbackQuery):
       allBtns.forEach((b, idx) => {
         b.disabled = true;
         if (idx === item.correct) {
-          b.className = 'quiz-opt-btn p-4 rounded-2xl text-left text-sm font-bold bg-teal-50 border-2 border-brand-teal text-brand-teal';
+          b.className = 'quiz-opt-btn p-4 rounded-2xl text-left text-sm font-bold bg-emerald-50 border-2 border-emerald-500 text-emerald-700';
         }
       });
 
       if (selectedIdx === item.correct) {
         quizScore++;
         document.getElementById('quiz-score').textContent = quizScore;
-        fb.className = 'p-4 rounded-2xl text-sm font-bold bg-teal-50 text-brand-teal border border-teal-200';
+        fb.className = 'p-4 rounded-2xl text-sm font-bold bg-emerald-50 text-emerald-700 border border-emerald-200';
         fb.textContent = '✅ ' + item.explain;
       } else {
-        btnEl.className = 'quiz-opt-btn p-4 rounded-2xl text-left text-sm font-bold bg-orange-50 border-2 border-brand-coral text-brand-coral';
-        fb.className = 'p-4 rounded-2xl text-sm font-bold bg-orange-50 text-brand-coral border border-orange-200';
+        btnEl.className = 'quiz-opt-btn p-4 rounded-2xl text-left text-sm font-bold bg-rose-50 border-2 border-rose-500 text-rose-700';
+        fb.className = 'p-4 rounded-2xl text-sm font-bold bg-rose-50 text-rose-700 border border-rose-200';
         fb.textContent = '❌ Не зовсім так. ' + item.explain;
       }
 
@@ -1037,10 +1037,10 @@ async def send_template(callback: types.CallbackQuery):
 
       const bubble = document.createElement('div');
       bubble.className = isUser
-        ? 'p-3.5 rounded-2xl rounded-tr-sm bg-gradient-to-r from-brand-coral to-orange-500 text-sm text-white shadow-md max-w-[85%]'
-        : 'p-3.5 rounded-2xl rounded-tl-sm bg-cream-card border border-cream-border text-sm text-brand-ink shadow-sm';
+        ? 'p-3.5 rounded-2xl rounded-tr-sm bg-gradient-to-r from-plum-main to-plum-orchid text-sm text-white shadow-md max-w-[85%]'
+        : 'p-3.5 rounded-2xl rounded-tl-sm bg-lav-card border border-lav-border text-sm text-plum-ink shadow-sm';
 
-      bubble.innerHTML = `<div>${text}</div><div class="text-[10px] ${isUser ? 'text-orange-100' : 'text-brand-muted'} text-right mt-1">${getCurrentTime()}</div>`;
+      bubble.innerHTML = `<div>${text}</div><div class="text-[10px] ${isUser ? 'text-purple-100' : 'text-plum-muted'} text-right mt-1">${getCurrentTime()}</div>`;
       wrapper.appendChild(bubble);
       container.appendChild(wrapper);
       container.scrollTop = container.scrollHeight;
@@ -1068,9 +1068,9 @@ async def send_template(callback: types.CallbackQuery):
     function resetChat() {
       document.getElementById('chat-messages').innerHTML = `
         <div class="flex items-start gap-2.5 max-w-[85%] msg-pop">
-          <div class="p-3.5 rounded-2xl rounded-tl-sm bg-cream-card border border-cream-border text-sm text-brand-ink shadow-sm">
+          <div class="p-3.5 rounded-2xl rounded-tl-sm bg-lav-card border border-lav-border text-sm text-plum-ink shadow-sm">
             <p>Чат оновлено! 🔄 Натисніть <b>«🎓 Для викладача ВНТУ»</b> або <b>/start</b>.</p>
-            <div class="text-[10px] text-brand-muted text-right mt-1">${getCurrentTime()}</div>
+            <div class="text-[10px] text-plum-muted text-right mt-1">${getCurrentTime()}</div>
           </div>
         </div>
       `;
